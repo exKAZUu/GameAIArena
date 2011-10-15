@@ -10,27 +10,20 @@
   <name>GameAIArena</name>
   <url>http://code.google.com/p/gameaiarena/</url>
 
-  <!-- 文字コードとコンパイラバージョン -->
+  <!-- General settings -->
   <properties>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-    <maven.compiler.target>1.6</maven.compiler.target>
-    <maven.compiler.source>1.6</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
-  <!-- 依存ライブラリ -->
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
-      <version>1.1</version>
+      <version>4.10</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -42,24 +35,6 @@
 
   <build>
     <plugins>
-      <!-- Javadocのレポート出力 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <subpackages>
-            jp.ac.waseda.cs.washi.gameaiarena.api
-          </subpackages>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>
