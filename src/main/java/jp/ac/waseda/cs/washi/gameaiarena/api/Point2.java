@@ -140,6 +140,15 @@ public class Point2 implements Comparable<Point2>, Serializable {
 	}
 
 	/**
+	 * Returns the manhattan distance between this and specified points.
+	 * @param that the point to calculate the manhattan distance
+	 * @return the manhattan distance between this and specified points
+	 */
+	public int getManhattanDistance(Point2 that) {
+		return Math.abs(x - that.x) + Math.abs(y - that.y);
+	}
+
+	/**
 	 * このPointが持つハッシュコードを返します。
 	 * 
 	 * @return このPointが持つハッシュコード
@@ -147,17 +156,6 @@ public class Point2 implements Comparable<Point2>, Serializable {
 	@Override
 	public int hashCode() {
 		return x ^ y;
-	}
-
-	/**
-	 * Point(this.x - that.x, this.y - that.y)となるPoint型を返します。
-	 * 
-	 * @param that
-	 *            このPoint型から減算するPoint型
-	 * @return このPoint型から引数のPoint型を減産した結果
-	 */
-	public Point2 sub(Point2 that) {
-		return new Point2(x - that.x, y - that.y);
 	}
 
 	/**
@@ -169,6 +167,17 @@ public class Point2 implements Comparable<Point2>, Serializable {
 	 */
 	public Point2 move(Direction4 direction) {
 		return new Point2(x + direction.dx, y + direction.dy);
+	}
+	
+	/**
+	 * Point(this.x - that.x, this.y - that.y)となるPoint型を返します。
+	 * 
+	 * @param that
+	 *            このPoint型から減算するPoint型
+	 * @return このPoint型から引数のPoint型を減産した結果
+	 */
+	public Point2 sub(Point2 that) {
+		return new Point2(x - that.x, y - that.y);
 	}
 
 	/**
