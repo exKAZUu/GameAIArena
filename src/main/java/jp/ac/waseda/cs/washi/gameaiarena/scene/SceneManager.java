@@ -32,9 +32,9 @@ public class SceneManager<Env extends Environment<Env>> {
 
 	public void run(final Env env, final Scene<Env> firstScene) {
 		Scene<Env> scene = firstScene;
-		scene.initializeWithoutRenderer(env);
+		scene.initialize(env);
 		if (env.getRenderer() != null) {
-			scene.initialize(env);
+			scene.initializeWithRenderer(env);
 		}
 		long nextTime = System.currentTimeMillis();
 
@@ -52,14 +52,14 @@ public class SceneManager<Env extends Environment<Env>> {
 					if (nextScene == null) {
 						return;
 					}
-					scene.releaseWithoutRenderer(env);
+					scene.release(env);
 					if (env.getRenderer() != null) {
-						scene.release(env);
+						scene.releaseWithRenderer(env);
 					}
 					scene = nextScene;
-					scene.initializeWithoutRenderer(env);
+					scene.initialize(env);
 					if (env.getRenderer() != null) {
-						scene.initialize(env);
+						scene.initializeWithRenderer(env);
 					}
 				}
 
@@ -82,9 +82,9 @@ public class SceneManager<Env extends Environment<Env>> {
 				env.getRenderer().forceRepaint();
 			}
 		}
-		scene.releaseWithoutRenderer(env);
+		scene.release(env);
 		if (env.getRenderer() != null) {
-			scene.initialize(env);
+			scene.initializeWithRenderer(env);
 		}
 	}
 
