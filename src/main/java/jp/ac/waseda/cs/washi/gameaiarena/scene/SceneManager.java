@@ -32,7 +32,10 @@ public class SceneManager<Env extends Environment<Env>> {
 
 	public void run(final Env env, final Scene<Env> firstScene) {
 		Scene<Env> scene = firstScene;
-		firstScene.initialize(env);
+		scene.initializeWithoutRenderer(env);
+		if (env.getRenderer() != null) {
+			scene.initializeWithRenderer(env);
+		}
 		long nextTime = System.currentTimeMillis();
 
 		while (!ended) {
@@ -40,16 +43,24 @@ public class SceneManager<Env extends Environment<Env>> {
 			long nowTime;
 			do {
 				// キー入力の更新
-				env.getInputer().update();
+				if (env.getInputer() != null) {
+					env.getInputer().update();
+				}
 				// シーンの処理
 				final Scene<Env> nextScene = scene.run(env);
 				if (nextScene != scene) {
 					if (nextScene == null) {
 						return;
 					}
-					scene.release(env);
+					scene.releaseWithoutRenderer(env);
+					if (env.getRenderer() != null) {
+						scene.releaseWithRenderer(env);
+					}
 					scene = nextScene;
-					scene.initialize(env);
+					scene.initializeWithoutRenderer(env);
+					if (env.getRenderer() != null) {
+						scene.initializeWithRenderer(env);
+					}
 				}
 
 				nextTime += this.mspf;
@@ -66,10 +77,15 @@ public class SceneManager<Env extends Environment<Env>> {
 					e.printStackTrace();
 				}
 			}
-			scene.draw(env);
-			env.getRenderer().forceRepaint();
+			if (env.getRenderer() != null) {
+				scene.draw(env);
+				env.getRenderer().forceRepaint();
+			}
 		}
-		scene.release(env);
+		scene.releaseWithoutRenderer(env);
+		if (env.getRenderer() != null) {
+			scene.initializeWithRenderer(env);
+		}
 	}
 
 	public void setFps(double fps) {
