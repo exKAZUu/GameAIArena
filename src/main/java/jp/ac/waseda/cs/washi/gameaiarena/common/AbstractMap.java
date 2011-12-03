@@ -1,17 +1,28 @@
 package jp.ac.waseda.cs.washi.gameaiarena.common;
 
 import java.util.Collections;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import jp.ac.waseda.cs.washi.gameaiarena.api.Point2;
 
-public abstract class AbstractMap<T> {
+public abstract class AbstractMap<T extends TypeSafeCloneable<T>> extends
+		TypeSafeCloneable<AbstractMap<T>> {
 	/** マップのタイル集合 */
 	private final SortedMap<Point2, T> tiles;
 
 	protected AbstractMap() {
 		tiles = new TreeMap<Point2, T>();
+	}
+
+	@Override
+	public AbstractMap<T> clone() {
+		AbstractMap<T> newMap = (AbstractMap<T>) super.clone();
+		for (Entry<Point2, T> e : newMap.tiles.entrySet()) {
+			newMap.tiles.put(e.getKey(), e.getValue().cloneTypeSafely());
+		}
+		return newMap;
 	}
 
 	public SortedMap<Point2, T> getTiles() {
