@@ -141,7 +141,9 @@ public class Point2 implements Comparable<Point2>, Serializable {
 
 	/**
 	 * Returns the manhattan distance between this and specified points.
-	 * @param that the point to calculate the manhattan distance
+	 * 
+	 * @param that
+	 *            the point to calculate the manhattan distance
 	 * @return the manhattan distance between this and specified points
 	 */
 	public int getManhattanDistance(Point2 that) {
@@ -168,7 +170,7 @@ public class Point2 implements Comparable<Point2>, Serializable {
 	public Point2 move(Direction4 direction) {
 		return new Point2(x + direction.dx, y + direction.dy);
 	}
-	
+
 	/**
 	 * Point(this.x - that.x, this.y - that.y)となるPoint型を返します。
 	 * 

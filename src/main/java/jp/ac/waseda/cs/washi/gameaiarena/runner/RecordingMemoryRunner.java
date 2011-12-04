@@ -3,8 +3,8 @@ package jp.ac.waseda.cs.washi.gameaiarena.runner;
 import java.io.Serializable;
 import java.util.List;
 
-public class RecordingMemoryRunner<Arg, Result extends Serializable, Plyaer> extends
-		AbstractRunner<Arg, Result, Plyaer> {
+public class RecordingMemoryRunner<Arg, Result extends Serializable, Plyaer>
+		extends AbstractRunner<Arg, Result, Plyaer> {
 
 	private final AbstractRunner<Arg, Result, Plyaer> player;
 	private final List<Result> oos;

@@ -18,11 +18,11 @@ public abstract class AbstractMap<T extends TypeSafeCloneable<T>> extends
 
 	@Override
 	public AbstractMap<T> clone() {
-		AbstractMap<T> newMap = (AbstractMap<T>) super.clone();
-		for (Entry<Point2, T> e : newMap.tiles.entrySet()) {
-			newMap.tiles.put(e.getKey(), e.getValue().cloneTypeSafely());
+		AbstractMap<T> map = (AbstractMap<T>) super.clone();
+		for (Entry<Point2, T> e : map.tiles.entrySet()) {
+			map.tiles.put(e.getKey(), e.getValue().clone());
 		}
-		return newMap;
+		return map;
 	}
 
 	public SortedMap<Point2, T> getTiles() {

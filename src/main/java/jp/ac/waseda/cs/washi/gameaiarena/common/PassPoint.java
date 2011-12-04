@@ -32,9 +32,10 @@ public class PassPoint {
 	public Direction4 getLastDirection() {
 		return lastDirection;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "{ " + location.toString() + ", " + lastDirection + ", " + moveCost + " }";
+		return "{ " + location.toString() + ", " + lastDirection + ", "
+				+ moveCost + " }";
 	}
 }

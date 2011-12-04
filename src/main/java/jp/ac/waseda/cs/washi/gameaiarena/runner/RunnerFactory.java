@@ -36,8 +36,7 @@ public class RunnerFactory {
 	}
 
 	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> replayingMemory(
-			AbstractRunner<Arg, Result, Player> runner,
-			Iterable<Result> results) {
+			AbstractRunner<Arg, Result, Player> runner, Iterable<Result> results) {
 		return new ReplayingMemoryRunner<Arg, Result, Player>(runner, results);
 	}
 }

@@ -43,9 +43,10 @@ public enum Direction4 {
 	public Point2 toPoint() {
 		return new Point2(dx, dy);
 	}
-	
+
 	/**
 	 * この方向とは逆の方向を取得します．
+	 * 
 	 * @return 逆の方向
 	 */
 	public Direction4 getOpposite() {

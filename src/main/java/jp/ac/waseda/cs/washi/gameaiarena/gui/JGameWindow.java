@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import jp.ac.waseda.cs.washi.gameaiarena.scene.Environment;
+import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
 import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
 public class JGameWindow extends JFrame {

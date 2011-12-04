@@ -1,6 +1,6 @@
 package jp.ac.waseda.cs.washi.gameaiarena.common;
 
-public class GameTime {
+public class GameTime extends TypeSafeCloneable<GameTime> {
 	private int currentTime;
 
 	public GameTime() {
@@ -16,7 +16,9 @@ public class GameTime {
 
 	/**
 	 * ゲーム時間を指定した時間だけ進めます
-	 * @param time 進める時間
+	 * 
+	 * @param time
+	 *            進める時間
 	 */
 	public void tick(int time) {
 		currentTime += time;
@@ -24,6 +26,7 @@ public class GameTime {
 
 	/**
 	 * 現在のゲーム時間を返します
+	 * 
 	 * @return 現在のゲーム時間
 	 */
 	public int getCurrentTime() {

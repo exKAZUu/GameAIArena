@@ -1,5 +1,7 @@
 package jp.ac.waseda.cs.washi.gameaiarena.scene;
 
+import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
+
 public class SceneManager<Env extends Environment<Env>> {
 	private double fps;
 	private double mspf;

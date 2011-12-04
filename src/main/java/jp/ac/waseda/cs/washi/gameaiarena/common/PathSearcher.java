@@ -33,8 +33,9 @@ public final class PathSearcher {
 					@Override
 					public int compare(PassPoint p1, PassPoint p2) {
 						if (p1.getMoveCost() == p2.getMoveCost()) {
-							return -(directionList.indexOf(p1.getLastDirection())
-									- directionList.indexOf(p2.getLastDirection()));
+							return -(directionList.indexOf(p1
+									.getLastDirection()) - directionList
+									.indexOf(p2.getLastDirection()));
 						}
 						return p1.getMoveCost() - p2.getMoveCost();
 					}

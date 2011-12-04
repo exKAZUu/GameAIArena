@@ -3,7 +3,7 @@ package jp.ac.waseda.cs.washi.gameaiarena.common;
 /**
  * 時間に関するクラス
  */
-public class GameTimer {
+public class GameTimer extends TypeSafeCloneable<GameTimer> {
 
 	private GameTime gameTime;
 	private int span;
@@ -14,6 +14,13 @@ public class GameTimer {
 		this.span = span;
 		this.endTime = gameTime.getCurrentTime() + span;
 	}
+
+	@Override
+	public GameTimer clone() {
+		GameTimer clone = super.clone();
+		clone.gameTime = gameTime.clone();
+		return clone;
+	};
 
 	public GameTime getGameTime() {
 		return gameTime;
