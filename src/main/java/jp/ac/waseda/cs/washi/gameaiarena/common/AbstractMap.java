@@ -10,7 +10,7 @@ import jp.ac.waseda.cs.washi.gameaiarena.api.Point2;
 public abstract class AbstractMap<T extends TypeSafeCloneable<T>> extends
 		TypeSafeCloneable<AbstractMap<T>> {
 	/** マップのタイル集合 */
-	private final SortedMap<Point2, T> tiles;
+	private SortedMap<Point2, T> tiles;
 
 	protected AbstractMap() {
 		tiles = new TreeMap<Point2, T>();
@@ -19,7 +19,8 @@ public abstract class AbstractMap<T extends TypeSafeCloneable<T>> extends
 	@Override
 	public AbstractMap<T> clone() {
 		AbstractMap<T> map = (AbstractMap<T>) super.clone();
-		for (Entry<Point2, T> e : map.tiles.entrySet()) {
+		map.tiles = new TreeMap<Point2, T>();
+		for (Entry<Point2, T> e : tiles.entrySet()) {
 			map.tiles.put(e.getKey(), e.getValue().clone());
 		}
 		return map;
