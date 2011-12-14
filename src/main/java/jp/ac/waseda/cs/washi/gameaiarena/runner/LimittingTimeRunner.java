@@ -43,7 +43,7 @@ public class LimittingTimeRunner<Arg, Result extends Serializable, Plyaer>
 		// 時間制限を超えた時点の結果を保存する
 		result = player.runPostProcessing();
 		if (thread.isAlive()) {
-			System.out.println("terminated the thread because of excess of time");
+			System.out.println("terminated the thread because time was exceeded");
 			thread.stop();
 		}
 	}
