@@ -20,6 +20,12 @@ public class RunnerFactory {
 				maxMillisecond);
 	}
 
+	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> limittingSumTime(
+			AbstractRunner<Arg, Result, Player> runner, int maxSumMillisecond, int availableMillisecond) {
+		return new LimittingSumTimeRunner<Arg, Result, Player>(runner,
+				maxSumMillisecond, availableMillisecond);
+	}
+
 	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> recordingStream(
 			AbstractRunner<Arg, Result, Player> runner, ObjectOutputStream oos) {
 		return new RecordingStream<Arg, Result, Player>(runner, oos);
