@@ -35,9 +35,6 @@ public class SceneManager<Env extends Environment<Env>> {
 	public void run(final Env env, final Scene<Env> firstScene) {
 		Scene<Env> scene = firstScene;
 		scene.initialize(env);
-		if (env.getRenderer() != null) {
-			scene.initializeForRenderer(env);
-		}
 		long nextTime = System.currentTimeMillis();
 
 		while (!ended) {
@@ -52,17 +49,11 @@ public class SceneManager<Env extends Environment<Env>> {
 				final Scene<Env> nextScene = scene.run(env);
 				if (nextScene != scene) {
 					scene.release(env);
-					if (env.getRenderer() != null) {
-						scene.releaseForRenderer(env);
-					}
 					if (nextScene == null) {
 						return;
 					}
 					scene = nextScene;
 					scene.initialize(env);
-					if (env.getRenderer() != null) {
-						scene.initializeForRenderer(env);
-					}
 				}
 
 				nextTime += this.mspf;
@@ -85,9 +76,6 @@ public class SceneManager<Env extends Environment<Env>> {
 			}
 		}
 		scene.release(env);
-		if (env.getRenderer() != null) {
-			scene.initializeForRenderer(env);
-		}
 	}
 
 	public void setFps(double fps) {
