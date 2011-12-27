@@ -30,7 +30,7 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Plyaer>
 	@SuppressWarnings("deprecation")
 	@Override
 	public void runProcessing() {
-		if (restExceededMillisecond < 0) {
+		if (restExceededMillisecond <= 0) {
 			return;
 		}
 		final Thread thread = new Thread(new Runnable() {
@@ -46,13 +46,17 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Plyaer>
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
-		restExceededMillisecond -= System.currentTimeMillis() - currentTimeMillis
-				- availableMillisecond;
+
+		long consumedTime = System.currentTimeMillis() - currentTimeMillis;
+		if (consumedTime > availableMillisecond) {
+			restExceededMillisecond -= consumedTime - availableMillisecond;
+		}
 		// 時間制限を超えた時点の結果を保存する
 		result = player.runPostProcessing();
 		if (thread.isAlive()) {
 			System.out
 					.println("terminated the thread because time was exceeded");
+			restExceededMillisecond = 0;
 			thread.stop();
 		}
 	}
