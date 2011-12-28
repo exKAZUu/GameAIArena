@@ -24,14 +24,14 @@ public class JGamePanel extends JPanel implements GamePanel {
 		this(false);
 	}
 
-	public JGamePanel(final boolean isDoubleBuffered) {
+	public JGamePanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);
 
 		keyMemorizer = new AwtKeyMemorizer();
 	}
 
 	@Override
-	public Image createImage(final int width, final int height) {
+	public Image createImage(int width, int height) {
 		return super.createImage(width, height);
 	}
 
@@ -53,15 +53,8 @@ public class JGamePanel extends JPanel implements GamePanel {
 		return this;
 	}
 
-	public Renderer initialize() {
-		return this.initialize(this);
-	}
-
-	public Renderer initialize(final JComponent keyFocus) {
-		final Dimension d = getPreferredSize();
-		bufferImage = this.createImage(d.width, d.height);
-		final Renderer renderer = new Renderer(this, keyFocus, bufferImage);
-
+	public void initialize() {
+		final JComponent keyFocus = this;
 		keyFocus.addKeyListener(keyMemorizer);
 		keyFocus.addMouseListener(new MouseAdapter() {
 			@Override
@@ -70,24 +63,37 @@ public class JGamePanel extends JPanel implements GamePanel {
 			}
 		});
 		keyFocus.requestFocusInWindow();
-		return renderer;
+	}
+
+	public Renderer createDoubleBufferedRenderer() {
+		Dimension d = getPreferredSize();
+		bufferImage = this.createImage(d.width, d.height);
+		return new DoubleBufferedRenderer(this, this, bufferImage);
+	}
+
+	public Renderer createRawRenderer() {
+		bufferImage = null;
+		return new RawRenderer(this);
 	}
 
 	@Override
-	public Image loadImage(final String path) {
-		final ClassLoader cl = this.getClass().getClassLoader();
-		final URL url = cl.getResource(path);
-		final Image image = Toolkit.getDefaultToolkit().getImage(url);
-		return image;
+	public Image loadImage(String path) {
+		ClassLoader cl = this.getClass().getClassLoader();
+		URL url = cl.getResource(path);
+		return Toolkit.getDefaultToolkit().getImage(url);
 	}
 
 	@Override
-	public void paintComponent(final Graphics g) {
-		g.drawImage(bufferImage, 0, 0, this);
+	public void paintComponent(Graphics g) {
+		if (bufferImage == null) {
+			super.paintComponent(g);
+		} else {
+			g.drawImage(bufferImage, 0, 0, this);
+		}
 	}
 
 	@Override
-	public void setPreferredSize(final Dimension d) {
+	public void setPreferredSize(Dimension d) {
 		super.setPreferredSize(d);
 
 		if (bufferImage == null) {
@@ -101,12 +107,12 @@ public class JGamePanel extends JPanel implements GamePanel {
 	}
 
 	@Override
-	public void setSize(final Dimension d) {
+	public void setSize(Dimension d) {
 		setPreferredSize(d);
 	}
 
 	@Override
-	public void setSize(final int width, final int height) {
+	public void setSize(int width, int height) {
 		this.setSize(new Dimension(width, height));
 	}
 }

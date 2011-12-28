@@ -26,9 +26,9 @@ public class JGameWindow extends JFrame {
 	}
 
 	private Point getCenterPoint(int width, int height) {
-		final GraphicsEnvironment env = GraphicsEnvironment
+		GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		final Rectangle desktopRect = env.getMaximumWindowBounds();
+		Rectangle desktopRect = env.getMaximumWindowBounds();
 		return new Point((desktopRect.width - width) / 2,
 				(desktopRect.height - height) / 2);
 	}
@@ -37,18 +37,18 @@ public class JGameWindow extends JFrame {
 		return panel;
 	}
 
-	public Renderer showAtCenter(int width, int height) {
-		return show(getCenterPoint(width, height), width, height);
+	public void showAtCenter(int width, int height) {
+		show(getCenterPoint(width, height), width, height);
 	}
 
-	public Renderer show(Point location, int width, int height) {
+	public void show(Point location, int width, int height) {
 		panel = new JGamePanel();
 		panel.setSize(width, height);
 		getContentPane().add(panel, BorderLayout.CENTER);
 		pack();
 		setVisible(true);
 		setLocation(location);
-		return panel.initialize();
+		panel.initialize();
 	}
 
 	public <Env extends Environment<Env>> void addWindowListenerOfTerminateSceneManager(
