@@ -53,6 +53,7 @@ public class JGamePanel extends JPanel implements GamePanel {
 		return this;
 	}
 
+	@Override
 	public void initialize() {
 		final JComponent keyFocus = this;
 		keyFocus.addKeyListener(keyMemorizer);
@@ -65,12 +66,14 @@ public class JGamePanel extends JPanel implements GamePanel {
 		keyFocus.requestFocusInWindow();
 	}
 
+	@Override
 	public Renderer createDoubleBufferedRenderer() {
 		Dimension d = getPreferredSize();
 		bufferImage = this.createImage(d.width, d.height);
 		return new DoubleBufferedRenderer(this, this, bufferImage);
 	}
 
+	@Override
 	public Renderer createRawRenderer() {
 		bufferImage = null;
 		return new RawRenderer(this);

@@ -20,4 +20,10 @@ public interface GamePanel {
 	void setSize(Dimension dimension);
 
 	void setSize(int width, int height);
+
+	Renderer createRawRenderer();
+
+	Renderer createDoubleBufferedRenderer();
+
+	void initialize();
 }

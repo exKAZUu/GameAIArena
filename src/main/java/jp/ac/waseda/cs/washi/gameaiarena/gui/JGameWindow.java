@@ -37,6 +37,14 @@ public class JGameWindow extends JFrame {
 		return panel;
 	}
 
+	public Renderer createDoubleBufferedRenderer() {
+		return panel.createDoubleBufferedRenderer();
+	}
+
+	public Renderer createRawRenderer() {
+		return panel.createRawRenderer();
+	}
+
 	public void showAtCenter(int width, int height) {
 		show(getCenterPoint(width, height), width, height);
 	}
