@@ -9,7 +9,7 @@
 
   <groupId>jp.ac.waseda.cs.washi</groupId>
   <artifactId>GameAIArena</artifactId>
-  <version>1.0.15</version>
+  <version>1.0.16-SNAPSHOT</version>
   <packaging>jar</packaging>
  
   <name>GameAIArena</name>
