@@ -68,6 +68,7 @@ public class JGamePanel extends JPanel implements GamePanel {
 
 	@Override
 	public Renderer createDoubleBufferedRenderer() {
+		setDoubleBuffered(false);
 		Dimension d = getPreferredSize();
 		bufferImage = this.createImage(d.width, d.height);
 		return new DoubleBufferedRenderer(this, this, bufferImage);
@@ -75,6 +76,7 @@ public class JGamePanel extends JPanel implements GamePanel {
 
 	@Override
 	public Renderer createRawRenderer() {
+		setDoubleBuffered(true);
 		bufferImage = null;
 		return new RawRenderer(this);
 	}

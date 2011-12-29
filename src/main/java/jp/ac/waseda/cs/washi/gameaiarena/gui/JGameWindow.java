@@ -38,6 +38,7 @@ public class JGameWindow extends JFrame {
 	}
 
 	public Renderer createDoubleBufferedRenderer() {
+		panel.setDoubleBuffered(true);
 		return panel.createDoubleBufferedRenderer();
 	}
 
