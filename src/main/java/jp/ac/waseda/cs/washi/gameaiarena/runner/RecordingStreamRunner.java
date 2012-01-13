@@ -1,19 +1,19 @@
 package jp.ac.waseda.cs.washi.gameaiarena.runner;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class ReplayingStream<Arg, Result extends Serializable, Plyaer> extends
-		AbstractRunner<Arg, Result, Plyaer> {
+public class RecordingStreamRunner<Arg, Result extends Serializable, Plyaer>
+		extends AbstractRunner<Arg, Result, Plyaer> {
 
 	private final AbstractRunner<Arg, Result, Plyaer> player;
-	private final ObjectInputStream ois;
+	private final ObjectOutputStream oos;
 
-	public ReplayingStream(AbstractRunner<Arg, Result, Plyaer> player,
-			ObjectInputStream ois) {
+	public RecordingStreamRunner(AbstractRunner<Arg, Result, Plyaer> player,
+			ObjectOutputStream oos) {
 		this.player = player;
-		this.ois = ois;
+		this.oos = oos;
 	}
 
 	@Override
@@ -31,16 +31,14 @@ public class ReplayingStream<Arg, Result extends Serializable, Plyaer> extends
 		player.runProcessing();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Result runPostProcessing() {
+		Result act = player.runPostProcessing();
 		try {
-			return (Result) ois.readObject();
+			oos.writeObject(act);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
-		return null;
+		return act;
 	}
 }

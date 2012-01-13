@@ -53,4 +53,8 @@ public abstract class AbstractMap<T extends TypeSafeCloneable<T>> extends
 	public boolean isAvailable(Point2 location) {
 		return tiles.containsKey(location);
 	}
+	
+	public void rotateRight(SortedMap<Point2, T> tiles) {
+		// TODO(exKAZUu):
+	}
 }

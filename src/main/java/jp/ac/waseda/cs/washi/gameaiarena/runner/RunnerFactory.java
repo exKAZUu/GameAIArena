@@ -28,7 +28,7 @@ public class RunnerFactory {
 
 	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> recordingStream(
 			AbstractRunner<Arg, Result, Player> runner, ObjectOutputStream oos) {
-		return new RecordingStream<Arg, Result, Player>(runner, oos);
+		return new RecordingStreamRunner<Arg, Result, Player>(runner, oos);
 	}
 
 	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> recordingMemory(
@@ -38,7 +38,7 @@ public class RunnerFactory {
 
 	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> replayingStream(
 			AbstractRunner<Arg, Result, Player> runner, ObjectInputStream ois) {
-		return new ReplayingStream<Arg, Result, Player>(runner, ois);
+		return new ReplayingStreamRunner<Arg, Result, Player>(runner, ois);
 	}
 
 	public static <Arg, Result extends Serializable, Player> AbstractRunner<Arg, Result, Player> replayingMemory(
