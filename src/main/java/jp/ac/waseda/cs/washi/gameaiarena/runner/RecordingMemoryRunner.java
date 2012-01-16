@@ -36,4 +36,9 @@ public class RecordingMemoryRunner<Arg, Result extends Serializable, Plyaer>
 		oos.add(act);
 		return act;
 	}
+
+	@Override
+	public String toString() {
+		return player.toString();
+	}
 }

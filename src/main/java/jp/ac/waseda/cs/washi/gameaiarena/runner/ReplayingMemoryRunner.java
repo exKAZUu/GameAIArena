@@ -34,4 +34,9 @@ public class ReplayingMemoryRunner<Arg, Result extends Serializable, Plyaer>
 	public Result runPostProcessing() {
 		return resultIterator.next();
 	}
+
+	@Override
+	public String toString() {
+		return player.toString();
+	}
 }

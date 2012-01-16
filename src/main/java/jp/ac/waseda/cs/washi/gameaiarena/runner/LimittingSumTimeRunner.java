@@ -65,4 +65,9 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Plyaer>
 	public Result runPostProcessing() {
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return player.toString();
+	}
 }

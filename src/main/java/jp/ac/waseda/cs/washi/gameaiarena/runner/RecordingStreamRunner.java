@@ -41,4 +41,9 @@ public class RecordingStreamRunner<Arg, Result extends Serializable, Plyaer>
 		}
 		return act;
 	}
+
+	@Override
+	public String toString() {
+		return player.toString();
+	}
 }

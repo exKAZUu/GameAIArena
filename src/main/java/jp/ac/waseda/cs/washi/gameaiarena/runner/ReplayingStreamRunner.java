@@ -43,4 +43,9 @@ public class ReplayingStreamRunner<Arg, Result extends Serializable, Plyaer> ext
 		}
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return player.toString();
+	}
 }

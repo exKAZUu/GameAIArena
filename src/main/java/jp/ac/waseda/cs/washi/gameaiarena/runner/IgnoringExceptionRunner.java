@@ -34,4 +34,9 @@ public class IgnoringExceptionRunner<Arg, Result extends Serializable, Plyaer>
 	public Result runPostProcessing() {
 		return player.runPostProcessing();
 	}
+
+	@Override
+	public String toString() {
+		return player.toString();
+	}
 }
