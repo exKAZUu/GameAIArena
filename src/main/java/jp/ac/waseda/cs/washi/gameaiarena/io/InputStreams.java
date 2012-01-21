@@ -1,8 +1,6 @@
 package jp.ac.waseda.cs.washi.gameaiarena.io;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -16,11 +14,25 @@ public class InputStreams {
 			URL url = InputStreams.class.getClassLoader().getResource(
 					resourceOrFilePath);
 			return url.openStream();
-		} catch (IOException e) {
+		} catch (Exception e) {
 		}
 		try {
 			return new FileInputStream(resourceOrFilePath);
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	public static InputStream openFileOrResource(String resourceOrFilePath) {
+		try {
+			return new FileInputStream(resourceOrFilePath);
+		} catch (Exception e) {
+		}
+		try {
+			URL url = InputStreams.class.getClassLoader().getResource(
+					resourceOrFilePath);
+			return url.openStream();
+		} catch (Exception e) {
 		}
 		return null;
 	}
