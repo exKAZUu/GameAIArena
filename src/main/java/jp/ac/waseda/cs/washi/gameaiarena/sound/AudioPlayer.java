@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javazoom.jl.decoder.JavaLayerException;
+import jp.ac.waseda.cs.washi.gameaiarena.io.InputStreams;
 
 /**
  * 
@@ -19,10 +20,22 @@ public class AudioPlayer {
 			Runnable {
 		private boolean stopping;
 		private boolean finished;
+		private final BufferedInputStream stream;
 
-		public RunnablePlayer(final InputStream stream)
+		/**
+		 * Constructs an instance with the specified stream.
+		 * 
+		 * @param stream
+		 *            the stream to construct the instance
+		 * @throws JavaLayerException
+		 *             if fails to an instance of initialize
+		 *             javazoom.jl.player.Player
+		 */
+		public RunnablePlayer(BufferedInputStream stream)
 				throws JavaLayerException {
 			super(stream);
+			this.stream = stream;
+			stream.mark(8 * 1024 * 1024);
 		}
 
 		@Override
@@ -31,46 +44,89 @@ public class AudioPlayer {
 			finished = true;
 		}
 
+		/**
+		 * Stops the audio player.
+		 */
 		public void stop() {
 			stopping = true;
 		}
 
-		public synchronized void restart() {
+		/**
+		 * Resumes the stopped audio player. If the audio player are playing,
+		 * does nothing.
+		 */
+		public synchronized void resume() {
 			stopping = false;
 			notify();
 		}
 
-		// javazoom.jl.player.Player#play() と同様の処理です。
-		// スレッドの停止、再開処理が可能です。
 		@Override
 		public void run() {
-			while (!super.isComplete() && !finished) {
-				synchronized (this) {
-					if (stopping) {
-						try {
-							this.wait();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-
+			while (!finished) {
+				checkStopping();
 				try {
-					decodeFrame();
+					finished |= !decodeFrame();
 				} catch (JavaLayerException e) {
-					e.printStackTrace();
 				}
+			}
+			if (loop) {
+				restart();
+			}
+		}
+
+		synchronized private void checkStopping() {
+			if (stopping) {
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+				}
+			}
+		}
+
+		/**
+		 * Resets and restarts the audio player.
+		 * 
+		 * @throws JavaLayerException
+		 *             if it fails to re-construct the audio player
+		 */
+		private void restart() {
+			// Stop this thread
+			finished = true;
+			resume();
+
+			int priority = playingThread.getPriority();
+			try {
+				player = new RunnablePlayer(stream);
+				playingThread = new Thread(player, "MP3-Player");
+				playingThread.setPriority(priority);
+				try {
+					stream.reset();
+				} catch (IOException e) {
+				}
+				playingThread.start();
+			} catch (JavaLayerException e) {
 			}
 		}
 	}
 
+	/**
+	 * An audio player for thread.
+	 */
 	private RunnablePlayer player;
+
+	/**
+	 * A thread to execute the audio player.
+	 */
 	private Thread playingThread;
+
+	/**
+	 * A boolean whether the audio player restart when playing is completed.
+	 */
+	private boolean loop;
 
 	public AudioPlayer(String resourcePath) throws JavaLayerException,
 			IOException {
-		this(AudioPlayer.class.getClassLoader().getResource(resourcePath)
-				.openStream());
+		this(InputStreams.openResourceOrFile(resourcePath));
 	}
 
 	public AudioPlayer(File file) throws FileNotFoundException,
@@ -88,9 +144,10 @@ public class AudioPlayer {
 		if (player == null)
 			return;
 		playingThread.start();
+		player.resume();
 	}
 
-	public void replay() {
+	public void restart() {
 		if (player == null)
 			return;
 		player.restart();
@@ -114,5 +171,13 @@ public class AudioPlayer {
 
 	public void setThreadPriority(int priority) {
 		playingThread.setPriority(priority);
+	}
+
+	public boolean isLoop() {
+		return loop;
+	}
+
+	public void setLoop(boolean enable) {
+		loop = enable;
 	}
 }
