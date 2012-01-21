@@ -96,13 +96,13 @@ public class AudioPlayer {
 
 			int priority = playingThread.getPriority();
 			try {
-				player = new RunnablePlayer(stream);
-				playingThread = new Thread(player, "MP3-Player");
-				playingThread.setPriority(priority);
 				try {
 					stream.reset();
 				} catch (IOException e) {
 				}
+				player = new RunnablePlayer(stream);
+				playingThread = new Thread(player, "MP3-Player");
+				playingThread.setPriority(priority);
 				playingThread.start();
 			} catch (JavaLayerException e) {
 			}
