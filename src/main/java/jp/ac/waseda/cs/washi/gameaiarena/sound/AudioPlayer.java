@@ -35,7 +35,6 @@ public class AudioPlayer {
 				throws JavaLayerException {
 			super(stream);
 			this.stream = stream;
-			stream.mark(8 * 1024 * 1024);
 		}
 
 		@Override
@@ -135,7 +134,24 @@ public class AudioPlayer {
 	}
 
 	public AudioPlayer(InputStream stream) throws JavaLayerException {
-		player = new RunnablePlayer(new BufferedInputStream(stream));
+		this(stream, 8 * 1024 * 1024);
+	}
+
+	public AudioPlayer(String resourcePath, int bufferSize)
+			throws JavaLayerException, IOException {
+		this(InputStreams.openResourceOrFile(resourcePath), bufferSize);
+	}
+
+	public AudioPlayer(File file, int bufferSize) throws FileNotFoundException,
+			JavaLayerException {
+		this(new FileInputStream(file), bufferSize);
+	}
+
+	public AudioPlayer(InputStream stream, int bufferSize)
+			throws JavaLayerException {
+		BufferedInputStream bufferedStream = new BufferedInputStream(stream);
+		bufferedStream.mark(bufferSize);
+		player = new RunnablePlayer(bufferedStream);
 		playingThread = new Thread(player, "MP3-Player");
 		playingThread.setPriority(8);
 	}
