@@ -21,9 +21,11 @@ public interface GamePanel {
 
 	void setSize(int width, int height);
 
-	Renderer createRawRenderer();
+	Renderer createStandardDoubleBufferedRenderer();
 
-	Renderer createDoubleBufferedRenderer();
+	Renderer createOriginalDoubleBufferedRenderer();
+
+	Renderer createDuplicateDoubleBufferedRenderer();
 
 	void initialize();
 }

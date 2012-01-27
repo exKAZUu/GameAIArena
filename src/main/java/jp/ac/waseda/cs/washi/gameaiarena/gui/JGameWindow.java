@@ -39,11 +39,11 @@ public class JGameWindow extends JFrame {
 
 	public Renderer createDoubleBufferedRenderer() {
 		panel.setDoubleBuffered(true);
-		return panel.createDoubleBufferedRenderer();
+		return panel.createOriginalDoubleBufferedRenderer();
 	}
 
 	public Renderer createRawRenderer() {
-		return panel.createRawRenderer();
+		return panel.createStandardDoubleBufferedRenderer();
 	}
 
 	public void showAtCenter(int width, int height) {
