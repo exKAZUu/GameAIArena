@@ -39,8 +39,13 @@ public class AudioPlayer {
 
 		@Override
 		public void close() {
-			super.close();
+			loop = false;
 			finished = true;
+			super.close();
+			try {
+				stream.close();
+			} catch (IOException e) {
+			}
 		}
 
 		/**
