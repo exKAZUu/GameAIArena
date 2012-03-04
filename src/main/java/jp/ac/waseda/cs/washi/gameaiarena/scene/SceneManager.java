@@ -2,7 +2,7 @@ package jp.ac.waseda.cs.washi.gameaiarena.scene;
 
 import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
 
-public class SceneManager<Env extends Environment<Env>> {
+public class SceneManager {
 	private double fps;
 	private double mspf;
 	private int maxSkip;
@@ -32,7 +32,8 @@ public class SceneManager<Env extends Environment<Env>> {
 		return this.mspf;
 	}
 
-	public void run(final Env env, final Scene<Env> firstScene) {
+	public <Env extends Environment> void run(final Env env,
+			final Scene<Env> firstScene) {
 		Scene<Env> scene = firstScene;
 		scene.initialize(env);
 		long nextTime = System.currentTimeMillis();

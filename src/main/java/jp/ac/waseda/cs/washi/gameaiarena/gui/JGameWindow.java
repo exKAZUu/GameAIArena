@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
 import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
 public class JGameWindow extends JFrame {
@@ -60,8 +59,8 @@ public class JGameWindow extends JFrame {
 		panel.initialize();
 	}
 
-	public <Env extends Environment<Env>> void addWindowListenerOfTerminateSceneManager(
-			final SceneManager<Env> sceneManager) {
+	public void addWindowListenerOfTerminateSceneManager(
+			final SceneManager sceneManager) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

@@ -4,15 +4,14 @@ import jp.ac.waseda.cs.washi.gameaiarena.gui.Renderer;
 import jp.ac.waseda.cs.washi.gameaiarena.key.MappedInputer;
 import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
-public abstract class Environment<T extends Environment<T>> extends
-		TypeSafeCloneable<T> {
-	private final SceneManager<T> _sceneManager;
+public abstract class Environment extends TypeSafeCloneable<Environment> {
+	private final SceneManager _sceneManager;
 	private final Renderer _renderer;
 	private final MappedInputer _inputer;
 	protected GameTime _time;
 	protected GameTimer _timer;
 
-	public Environment(SceneManager<T> sceneManager, Renderer renderer,
+	public Environment(SceneManager sceneManager, Renderer renderer,
 			MappedInputer inputer) {
 		_sceneManager = sceneManager;
 		_renderer = renderer;
@@ -26,8 +25,8 @@ public abstract class Environment<T extends Environment<T>> extends
 	}
 
 	@Override
-	public T clone() {
-		T env = super.clone();
+	public Environment clone() {
+		Environment env = super.clone();
 		env._timer = _timer.clone();
 		env._time = env._timer.getGameTime();
 		return env;
@@ -41,7 +40,7 @@ public abstract class Environment<T extends Environment<T>> extends
 		return _renderer;
 	}
 
-	public SceneManager<T> getSceneManager() {
+	public SceneManager getSceneManager() {
 		return _sceneManager;
 	}
 

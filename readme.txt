@@ -1,11 +1,11 @@
 = Developer
-SAKAMOTO Kazunori (kazuu@ruri.waseda.jp)
+SAKAMOTO Kazunori (exkazuu@gmail.com)
 
 = Installation
     <dependency>
       <groupId>jp.ac.waseda.cs.washi</groupId>
       <artifactId>GameAIArena</artifactId>
-      <version>1.0.2</version>
+      <version>1.1.0</version>
     </dependency>
 
 = License

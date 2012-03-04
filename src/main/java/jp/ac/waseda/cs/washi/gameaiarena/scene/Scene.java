@@ -2,7 +2,7 @@ package jp.ac.waseda.cs.washi.gameaiarena.scene;
 
 import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
 
-public abstract class Scene<Env extends Environment<Env>> {
+public abstract class Scene<Env extends Environment> {
 	public void initialize(Env env) {
 	}
 
