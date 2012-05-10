@@ -7,24 +7,30 @@ import java.awt.image.ImageObserver;
 
 public interface Renderer {
 
-	public abstract void clear(Color c);
+  public abstract void clear(Color c);
 
-	public abstract Image createImage(int width, int height);
+  public abstract Image createImage(int width, int height);
 
-	public abstract Image createImage(int width, int height, Color c);
+  public abstract Image createImage(int width, int height, Color c);
 
-	public abstract void drawImage(Image img, int x, int y);
+  public abstract void drawImage(Image img, int x, int y);
 
-	public abstract void forceRepaint();
+  public abstract void drawPoint(int x, int y, Color c);
 
-	public abstract Graphics getGraphics();
+  public abstract void drawRectangle(int x, int y, int width, int height, Color c);
 
-	public abstract ImageObserver getImageObserver();
+  public abstract void fillRectangle(int x, int y, int width, int height, Color c);
 
-	public abstract GamePanel getPanel();
+  public abstract void forceRepaint();
 
-	public abstract Image loadImage(String path);
+  public abstract Graphics getGraphics();
 
-	public abstract void waitLoadImage();
+  public abstract ImageObserver getImageObserver();
+
+  public abstract GamePanel getPanel();
+
+  public abstract Image loadImage(String path);
+
+  public abstract void waitLoadImage();
 
 }
