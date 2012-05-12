@@ -2,30 +2,34 @@ package jp.ac.waseda.cs.washi.gameaiarena.gui;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.image.ImageObserver;
 
 import jp.ac.waseda.cs.washi.gameaiarena.key.AwtKeyMemorizer;
+import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
 public interface GamePanel {
-	Image createImage(int width, int height);
+  Image createImage(int width, int height);
 
-	void forceRepaint();
+  void forceRepaint();
 
-	AwtKeyMemorizer getKeyMemorizer();
+  AwtKeyMemorizer getKeyMemorizer();
 
-	ImageObserver getObserver();
+  ImageObserver getObserver();
 
-	Image loadImage(String path);
+  Image loadImage(String path);
 
-	void setSize(Dimension dimension);
+  void setSize(Dimension dimension);
 
-	void setSize(int width, int height);
+  void setSize(int width, int height);
 
-	Renderer createStandardDoubleBufferedRenderer();
+  Renderer createStandardDoubleBufferedRenderer();
 
-	Renderer createOriginalDoubleBufferedRenderer();
+  Renderer createOriginalDoubleBufferedRenderer();
 
-	Renderer createDuplicateDoubleBufferedRenderer();
+  Renderer createDuplicateDoubleBufferedRenderer();
 
-	void initialize();
+  void initialize();
+
+  void addWindowListenerOfTerminateSceneManager(Window window, SceneManager sceneManager);
 }

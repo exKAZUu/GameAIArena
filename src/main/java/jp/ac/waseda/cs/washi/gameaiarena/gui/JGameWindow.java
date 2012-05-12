@@ -4,73 +4,62 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
 import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
 public class JGameWindow extends JFrame {
-	private static final long serialVersionUID = -4977886675727461795L;
+  private static final long serialVersionUID = -4977886675727461795L;
 
-	private JGamePanel panel;
+  private JGamePanel panel;
 
-	public JGameWindow() {
-		super();
-	}
+  public JGameWindow() {
+    super();
+  }
 
-	public JGameWindow(String title) {
-		super(title);
-	}
+  public JGameWindow(String title) {
+    super(title);
+  }
 
-	private Point getCenterPoint(int width, int height) {
-		GraphicsEnvironment env = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		Rectangle desktopRect = env.getMaximumWindowBounds();
-		return new Point((desktopRect.width - width) / 2,
-				(desktopRect.height - height) / 2);
-	}
+  private Point getCenterPoint(int width, int height) {
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    Rectangle desktopRect = env.getMaximumWindowBounds();
+    return new Point((desktopRect.width - width) / 2, (desktopRect.height - height) / 2);
+  }
 
-	public JGamePanel getPanel() {
-		return panel;
-	}
+  public JGamePanel getPanel() {
+    return panel;
+  }
 
-	public Renderer createDoubleBufferedRenderer() {
-		panel.setDoubleBuffered(true);
-		return panel.createOriginalDoubleBufferedRenderer();
-	}
+  public Renderer createOriginalDoubleBufferedRenderer() {
+    panel.setDoubleBuffered(true);
+    return panel.createOriginalDoubleBufferedRenderer();
+  }
 
-	public Renderer createRawRenderer() {
-		return panel.createStandardDoubleBufferedRenderer();
-	}
+  public Renderer createStandardDoubleBufferedRenderer() {
+    return panel.createStandardDoubleBufferedRenderer();
+  }
 
-	public void showAtCenter(int width, int height) {
-		show(getCenterPoint(width, height), width, height);
-	}
+  public Renderer createDuplicateDoubleBufferedRenderer() {
+    return panel.createDuplicateDoubleBufferedRenderer();
+  }
 
-	public void show(Point location, int width, int height) {
-		panel = new JGamePanel();
-		panel.setSize(width, height);
-		getContentPane().add(panel, BorderLayout.CENTER);
-		pack();
-		setVisible(true);
-		setLocation(location);
-		panel.initialize();
-	}
+  public void showAtCenter(int width, int height) {
+    show(getCenterPoint(width, height), width, height);
+  }
 
-	public void addWindowListenerOfTerminateSceneManager(
-			final SceneManager sceneManager) {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				sceneManager.terminate();
-			}
+  public void show(Point location, int width, int height) {
+    panel = new JGamePanel();
+    panel.setSize(width, height);
+    getContentPane().add(panel, BorderLayout.CENTER);
+    pack();
+    setVisible(true);
+    setLocation(location);
+    panel.initialize();
+  }
 
-			@Override
-			public void windowClosed(WindowEvent e) {
-				sceneManager.terminate();
-			}
-		});
-	}
+  public void addWindowListenerOfTerminateSceneManager(final SceneManager sceneManager) {
+    panel.addWindowListenerOfTerminateSceneManager(this, sceneManager);
+  }
 }
