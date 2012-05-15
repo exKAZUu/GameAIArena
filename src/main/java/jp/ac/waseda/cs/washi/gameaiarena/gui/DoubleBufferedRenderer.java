@@ -8,11 +8,11 @@ import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
 
 public class DoubleBufferedRenderer implements Renderer {
-  private final Graphics graphics;
-  private final Image image;
+  private Graphics graphics;
   private final GamePanel panel;
   private final ImageObserver imageObserver;
   private final MediaTracker mediaTracker;
+  private Image image;
   private int imageCount;
 
   public DoubleBufferedRenderer(GamePanel panel, Component trackerComponent, Image image) {
@@ -22,6 +22,16 @@ public class DoubleBufferedRenderer implements Renderer {
     graphics.setColor(Color.WHITE);
     imageObserver = panel.getObserver();
     mediaTracker = new MediaTracker(trackerComponent);
+
+    panel.addGamePnaelListenerForRenderer(new GamePanelListener() {
+      @Override
+      public void updatedBufferImage(Image bufferImage) {
+        DoubleBufferedRenderer.this.image = bufferImage;
+        Color color = DoubleBufferedRenderer.this.graphics.getColor();
+        DoubleBufferedRenderer.this.graphics = bufferImage.getGraphics();
+        DoubleBufferedRenderer.this.graphics.setColor(color);
+      }
+    });
   }
 
   @Override

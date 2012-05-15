@@ -32,13 +32,13 @@ public class JGameWindow extends JFrame {
     return panel;
   }
 
-  public Renderer createOriginalDoubleBufferedRenderer() {
+  public Renderer createDefaultDoubleBufferedRenderer() {
     panel.setDoubleBuffered(true);
-    return panel.createOriginalDoubleBufferedRenderer();
+    return panel.createDefaultDoubleBufferedRenderer();
   }
 
-  public Renderer createStandardDoubleBufferedRenderer() {
-    return panel.createStandardDoubleBufferedRenderer();
+  public Renderer createSwingDoubleBufferedRenderer() {
+    return panel.createSwingDoubleBufferedRenderer();
   }
 
   public Renderer createDuplicateDoubleBufferedRenderer() {

@@ -23,13 +23,15 @@ public interface GamePanel {
 
   void setSize(int width, int height);
 
-  Renderer createStandardDoubleBufferedRenderer();
+  Renderer createSwingDoubleBufferedRenderer();
 
-  Renderer createOriginalDoubleBufferedRenderer();
+  Renderer createDefaultDoubleBufferedRenderer();
 
   Renderer createDuplicateDoubleBufferedRenderer();
 
   void initialize();
 
   void addWindowListenerOfTerminateSceneManager(Window window, SceneManager sceneManager);
+
+  void addGamePnaelListenerForRenderer(GamePanelListener listener);
 }

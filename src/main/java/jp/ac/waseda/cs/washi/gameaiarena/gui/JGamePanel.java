@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.ImageObserver;
 import java.net.URL;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -18,11 +19,14 @@ import javax.swing.JPanel;
 import jp.ac.waseda.cs.washi.gameaiarena.key.AwtKeyMemorizer;
 import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
+import com.google.common.collect.Lists;
+
 public class JGamePanel extends JPanel implements GamePanel {
   private static final long serialVersionUID = 6798239655884559261L;
 
   private Image bufferImage;
   private final AwtKeyMemorizer keyMemorizer;
+  private final List<GamePanelListener> gamePanelListeners;
 
   public JGamePanel() {
     this(false);
@@ -32,6 +36,7 @@ public class JGamePanel extends JPanel implements GamePanel {
     super(isDoubleBuffered);
 
     keyMemorizer = new AwtKeyMemorizer();
+    gamePanelListeners = Lists.newArrayList();
   }
 
   @Override
@@ -71,14 +76,14 @@ public class JGamePanel extends JPanel implements GamePanel {
   }
 
   @Override
-  public Renderer createStandardDoubleBufferedRenderer() {
+  public Renderer createSwingDoubleBufferedRenderer() {
     setDoubleBuffered(true);
     bufferImage = null;
     return new RawRenderer(this);
   }
 
   @Override
-  public Renderer createOriginalDoubleBufferedRenderer() {
+  public Renderer createDefaultDoubleBufferedRenderer() {
     setDoubleBuffered(false);
     Dimension d = getPreferredSize();
     bufferImage = this.createImage(d.width, d.height);
@@ -110,26 +115,32 @@ public class JGamePanel extends JPanel implements GamePanel {
   }
 
   @Override
-  public void setPreferredSize(Dimension d) {
-    super.setPreferredSize(d);
-
-    if (bufferImage == null) {
-      return;
-    }
-    if (d.width == bufferImage.getWidth(this) && d.height == bufferImage.getHeight(this)) {
-      return;
-    }
-    bufferImage = this.createImage(d.width, d.height);
-  }
-
-  @Override
   public void setSize(Dimension d) {
-    setPreferredSize(d);
+    super.setSize(d);
+    resizeBufferImage(d.width, d.height);
   }
 
   @Override
   public void setSize(int width, int height) {
-    this.setSize(new Dimension(width, height));
+    super.setSize(width, height);
+    resizeBufferImage(width, height);
+  }
+
+  private void resizeBufferImage(int width, int height) {
+    if (bufferImage == null) {
+      return;
+    }
+    if (width == bufferImage.getWidth(this) && height == bufferImage.getHeight(this)) {
+      return;
+    }
+
+    Image newImage = this.createImage(width, height);
+    newImage.getGraphics().drawImage(bufferImage, 0, 0, this);
+    bufferImage = newImage;
+
+    for (GamePanelListener listener : gamePanelListeners) {
+      listener.updatedBufferImage(newImage);
+    }
   }
 
   @Override
@@ -146,5 +157,10 @@ public class JGamePanel extends JPanel implements GamePanel {
         sceneManager.terminate();
       }
     });
+  }
+
+  @Override
+  public void addGamePnaelListenerForRenderer(GamePanelListener listener) {
+    gamePanelListeners.add(listener);
   }
 }
