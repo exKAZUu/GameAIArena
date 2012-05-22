@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
 
-public class DoubleBufferedRenderer implements Renderer {
+public class DoubleBufferedRenderer extends Renderer {
   private Graphics graphics;
   private final GamePanel panel;
   private final ImageObserver imageObserver;
@@ -57,29 +57,33 @@ public class DoubleBufferedRenderer implements Renderer {
 
   @Override
   public void drawImage(Image img, int x, int y) {
-    graphics.drawImage(img, x, y, imageObserver);
+    Graphics g = getGraphics();
+    g.drawImage(img, x, y, imageObserver);
   }
 
   @Override
   public void drawPoint(int x, int y, Color c) {
-    graphics.setColor(c);
-    graphics.fillRect(x, y, 1, 1);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.fillRect(x, y, 1, 1);
   }
 
   @Override
   public void drawRectangle(int x, int y, int width, int height, Color c) {
-    graphics.setColor(c);
-    graphics.drawRect(x, y, width, height);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.drawRect(x, y, width, height);
   }
 
   @Override
   public void fillRectangle(int x, int y, int width, int height, Color c) {
-    graphics.setColor(c);
-    graphics.fillRect(x, y, width, height);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.fillRect(x, y, width, height);
   }
 
   @Override
-  public void forceRepaint() {
+  protected void forceRepaint() {
     panel.forceRepaint();
   }
 

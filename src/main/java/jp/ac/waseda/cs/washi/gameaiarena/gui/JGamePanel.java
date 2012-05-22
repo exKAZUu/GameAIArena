@@ -4,11 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.ImageObserver;
 import java.net.URL;
 import java.util.List;
@@ -17,7 +14,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import jp.ac.waseda.cs.washi.gameaiarena.key.AwtKeyMemorizer;
-import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
 import com.google.common.collect.Lists;
 
@@ -141,22 +137,6 @@ public class JGamePanel extends JPanel implements GamePanel {
     for (GamePanelListener listener : gamePanelListeners) {
       listener.updatedBufferImage(newImage);
     }
-  }
-
-  @Override
-  public void addWindowListenerOfTerminateSceneManager(Window window,
-      final SceneManager sceneManager) {
-    window.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        sceneManager.terminate();
-      }
-
-      @Override
-      public void windowClosed(WindowEvent e) {
-        sceneManager.terminate();
-      }
-    });
   }
 
   @Override

@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-import jp.ac.waseda.cs.washi.gameaiarena.scene.SceneManager;
 
 public class JGameWindow extends JFrame {
   private static final long serialVersionUID = -4977886675727461795L;
@@ -59,7 +58,7 @@ public class JGameWindow extends JFrame {
     panel.initialize();
   }
 
-  public void addWindowListenerOfTerminateSceneManager(final SceneManager sceneManager) {
-    panel.addWindowListenerOfTerminateSceneManager(this, sceneManager);
+  public void addWindowListenerForTerminating(SceneManager sceneManager) {
+    sceneManager.addWindowListenerForTerminating(this);
   }
 }

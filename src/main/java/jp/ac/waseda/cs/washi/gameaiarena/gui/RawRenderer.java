@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
 
-public class RawRenderer implements Renderer {
+public class RawRenderer extends Renderer {
   private final JGamePanel panel;
   private final ImageObserver imageObserver;
   private final MediaTracker mediaTracker;
@@ -23,8 +23,9 @@ public class RawRenderer implements Renderer {
   @Override
   public void clear(Color c) {
     Dimension d = panel.getPreferredSize();
-    panel.getGraphics().setColor(c);
-    panel.getGraphics().fillRect(0, 0, d.width, d.height);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.fillRect(0, 0, d.width, d.height);
   }
 
   @Override
@@ -44,29 +45,33 @@ public class RawRenderer implements Renderer {
 
   @Override
   public void drawImage(Image img, int x, int y) {
-    panel.getGraphics().drawImage(img, x, y, imageObserver);
+    Graphics g = getGraphics();
+    g.drawImage(img, x, y, imageObserver);
   }
 
   @Override
   public void drawPoint(int x, int y, Color c) {
-    panel.getGraphics().setColor(c);
-    panel.getGraphics().fillRect(x, y, 1, 1);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.fillRect(x, y, 1, 1);
   }
 
   @Override
   public void drawRectangle(int x, int y, int width, int height, Color c) {
-    panel.getGraphics().setColor(c);
-    panel.getGraphics().drawRect(x, y, width, height);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.drawRect(x, y, width, height);
   }
 
   @Override
   public void fillRectangle(int x, int y, int width, int height, Color c) {
-    panel.getGraphics().setColor(c);
-    panel.getGraphics().fillRect(x, y, width, height);
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.fillRect(x, y, width, height);
   }
 
   @Override
-  public void forceRepaint() {
+  protected void forceRepaint() {
     panel.forceRepaint();
   }
 
