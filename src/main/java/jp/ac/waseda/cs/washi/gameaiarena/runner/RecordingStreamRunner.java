@@ -4,21 +4,21 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class RecordingStreamRunner<Arg, Result extends Serializable, Plyaer>
-		extends AbstractRunner<Arg, Result, Plyaer> {
+public class RecordingStreamRunner<Arg, Result extends Serializable, Controller>
+		extends AbstractRunner<Arg, Result, Controller> {
 
-	private final AbstractRunner<Arg, Result, Plyaer> player;
+	private final AbstractRunner<Arg, Result, Controller> player;
 	private final ObjectOutputStream oos;
 
-	public RecordingStreamRunner(AbstractRunner<Arg, Result, Plyaer> player,
+	public RecordingStreamRunner(AbstractRunner<Arg, Result, Controller> controller,
 			ObjectOutputStream oos) {
-		this.player = player;
+		this.player = controller;
 		this.oos = oos;
 	}
 
 	@Override
-	public Plyaer getPlyaer() {
-		return player.getPlyaer();
+	public Controller getController() {
+		return player.getController();
 	}
 
 	@Override

@@ -2,9 +2,9 @@ package jp.ac.waseda.cs.washi.gameaiarena.runner;
 
 import java.io.Serializable;
 
-public abstract class AbstractRunner<Arg, Result extends Serializable, Player> {
+public abstract class AbstractRunner<Arg, Result extends Serializable, Controller> {
 
-	public abstract Player getPlyaer();
+	public abstract Controller getController();
 
 	public final Result run(Arg input) {
 		runPreProcessing(input);

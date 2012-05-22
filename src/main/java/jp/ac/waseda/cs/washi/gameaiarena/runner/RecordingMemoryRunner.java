@@ -3,42 +3,42 @@ package jp.ac.waseda.cs.washi.gameaiarena.runner;
 import java.io.Serializable;
 import java.util.List;
 
-public class RecordingMemoryRunner<Arg, Result extends Serializable, Plyaer>
-		extends AbstractRunner<Arg, Result, Plyaer> {
+public class RecordingMemoryRunner<Arg, Result extends Serializable, Controller>
+		extends AbstractRunner<Arg, Result, Controller> {
 
-	private final AbstractRunner<Arg, Result, Plyaer> player;
+	private final AbstractRunner<Arg, Result, Controller> controller;
 	private final List<Result> oos;
 
-	public RecordingMemoryRunner(AbstractRunner<Arg, Result, Plyaer> player,
+	public RecordingMemoryRunner(AbstractRunner<Arg, Result, Controller> controller,
 			List<Result> oos) {
-		this.player = player;
+		this.controller = controller;
 		this.oos = oos;
 	}
 
 	@Override
-	public Plyaer getPlyaer() {
-		return player.getPlyaer();
+	public Controller getController() {
+		return controller.getController();
 	}
 
 	@Override
 	public void runPreProcessing(Arg input) {
-		player.runPreProcessing(input);
+		controller.runPreProcessing(input);
 	}
 
 	@Override
 	public void runProcessing() {
-		player.runProcessing();
+		controller.runProcessing();
 	}
 
 	@Override
 	public Result runPostProcessing() {
-		Result act = player.runPostProcessing();
+		Result act = controller.runPostProcessing();
 		oos.add(act);
 		return act;
 	}
 
 	@Override
 	public String toString() {
-		return player.toString();
+		return controller.toString();
 	}
 }

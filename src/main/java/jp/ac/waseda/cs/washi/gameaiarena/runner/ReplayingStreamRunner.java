@@ -4,48 +4,48 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public class ReplayingStreamRunner<Arg, Result extends Serializable, Plyaer> extends
-		AbstractRunner<Arg, Result, Plyaer> {
+public class ReplayingStreamRunner<Arg, Result extends Serializable, Controller>
+    extends AbstractRunner<Arg, Result, Controller> {
 
-	private final AbstractRunner<Arg, Result, Plyaer> player;
-	private final ObjectInputStream ois;
+  private final AbstractRunner<Arg, Result, Controller> controller;
+  private final ObjectInputStream ois;
 
-	public ReplayingStreamRunner(AbstractRunner<Arg, Result, Plyaer> player,
-			ObjectInputStream ois) {
-		this.player = player;
-		this.ois = ois;
-	}
+  public ReplayingStreamRunner(AbstractRunner<Arg, Result, Controller> controller,
+      ObjectInputStream ois) {
+    this.controller = controller;
+    this.ois = ois;
+  }
 
-	@Override
-	public Plyaer getPlyaer() {
-		return player.getPlyaer();
-	}
+  @Override
+  public Controller getController() {
+    return controller.getController();
+  }
 
-	@Override
-	public void runPreProcessing(Arg input) {
-		player.runPreProcessing(input);
-	}
+  @Override
+  public void runPreProcessing(Arg input) {
+    controller.runPreProcessing(input);
+  }
 
-	@Override
-	public void runProcessing() {
-		player.runProcessing();
-	}
+  @Override
+  public void runProcessing() {
+    controller.runProcessing();
+  }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Result runPostProcessing() {
-		try {
-			return (Result) ois.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+  @SuppressWarnings("unchecked")
+  @Override
+  public Result runPostProcessing() {
+    try {
+      return (Result) ois.readObject();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 
-	@Override
-	public String toString() {
-		return player.toString();
-	}
+  @Override
+  public String toString() {
+    return controller.toString();
+  }
 }

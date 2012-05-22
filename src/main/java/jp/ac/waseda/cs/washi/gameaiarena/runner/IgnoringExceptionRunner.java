@@ -2,41 +2,41 @@ package jp.ac.waseda.cs.washi.gameaiarena.runner;
 
 import java.io.Serializable;
 
-public class IgnoringExceptionRunner<Arg, Result extends Serializable, Plyaer>
-		extends AbstractRunner<Arg, Result, Plyaer> {
+public class IgnoringExceptionRunner<Arg, Result extends Serializable, Controller>
+    extends AbstractRunner<Arg, Result, Controller> {
 
-	private final AbstractRunner<Arg, Result, Plyaer> player;
+  private final AbstractRunner<Arg, Result, Controller> controller;
 
-	public IgnoringExceptionRunner(AbstractRunner<Arg, Result, Plyaer> player) {
-		this.player = player;
-	}
+  public IgnoringExceptionRunner(AbstractRunner<Arg, Result, Controller> controller) {
+    this.controller = controller;
+  }
 
-	@Override
-	public Plyaer getPlyaer() {
-		return player.getPlyaer();
-	}
+  @Override
+  public Controller getController() {
+    return controller.getController();
+  }
 
-	@Override
-	public void runPreProcessing(Arg input) {
-		player.runPreProcessing(input);
-	}
+  @Override
+  public void runPreProcessing(Arg input) {
+    controller.runPreProcessing(input);
+  }
 
-	@Override
-	public void runProcessing() {
-		try {
-			player.runProcessing();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+  @Override
+  public void runProcessing() {
+    try {
+      controller.runProcessing();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
-	@Override
-	public Result runPostProcessing() {
-		return player.runPostProcessing();
-	}
+  @Override
+  public Result runPostProcessing() {
+    return controller.runPostProcessing();
+  }
 
-	@Override
-	public String toString() {
-		return player.toString();
-	}
+  @Override
+  public String toString() {
+    return controller.toString();
+  }
 }

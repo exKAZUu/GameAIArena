@@ -6,7 +6,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
-import jp.ac.waseda.cs.washi.gameaiarena.scene.Scene;
 
 public class SceneManager {
   private double fps;
@@ -40,7 +39,8 @@ public class SceneManager {
 
   public <Env extends Environment> void run(final Env env, final Scene<Env> firstScene) {
     Scene<Env> scene = firstScene;
-    scene.initialize(env);
+    scene.setEnvironment(env);
+    scene.initialize();
     long nextTime = System.currentTimeMillis();
 
     while (!ended) {
@@ -52,14 +52,15 @@ public class SceneManager {
           env.getInputer().update();
         }
         // シーンの処理
-        final Scene<Env> nextScene = scene.run(env);
+        final Scene<Env> nextScene = scene.run();
         if (nextScene != scene) {
-          scene.release(env);
+          scene.release();
           if (nextScene == null) {
             return;
           }
           scene = nextScene;
-          scene.initialize(env);
+          scene.setEnvironment(env);
+          scene.initialize();
         }
 
         nextTime += this.mspf;
@@ -77,14 +78,14 @@ public class SceneManager {
         }
       }
       if (env.getRenderer() != null) {
-        scene.draw(env);
+        scene.draw();
         env.getRenderer().forceRepaint();
         for (Renderer renderer : env.getSubRenderers()) {
           renderer.forceRepaint();
         }
       }
     }
-    scene.release(env);
+    scene.release();
   }
 
   public void setFps(double fps) {

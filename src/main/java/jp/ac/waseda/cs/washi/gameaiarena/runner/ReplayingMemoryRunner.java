@@ -3,40 +3,40 @@ package jp.ac.waseda.cs.washi.gameaiarena.runner;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class ReplayingMemoryRunner<Arg, Result extends Serializable, Plyaer>
-		extends AbstractRunner<Arg, Result, Plyaer> {
+public class ReplayingMemoryRunner<Arg, Result extends Serializable, Controller>
+    extends AbstractRunner<Arg, Result, Controller> {
 
-	private final AbstractRunner<Arg, Result, Plyaer> player;
-	private final Iterator<Result> resultIterator;
+  private final AbstractRunner<Arg, Result, Controller> player;
+  private final Iterator<Result> resultIterator;
 
-	public ReplayingMemoryRunner(AbstractRunner<Arg, Result, Plyaer> player,
-			Iterable<Result> results) {
-		this.player = player;
-		this.resultIterator = results.iterator();
-	}
+  public ReplayingMemoryRunner(AbstractRunner<Arg, Result, Controller> controller,
+      Iterable<Result> results) {
+    this.player = controller;
+    this.resultIterator = results.iterator();
+  }
 
-	@Override
-	public Plyaer getPlyaer() {
-		return player.getPlyaer();
-	}
+  @Override
+  public Controller getController() {
+    return player.getController();
+  }
 
-	@Override
-	public void runPreProcessing(Arg input) {
-		player.runPreProcessing(input);
-	}
+  @Override
+  public void runPreProcessing(Arg input) {
+    player.runPreProcessing(input);
+  }
 
-	@Override
-	public void runProcessing() {
-		player.runProcessing();
-	}
+  @Override
+  public void runProcessing() {
+    player.runProcessing();
+  }
 
-	@Override
-	public Result runPostProcessing() {
-		return resultIterator.next();
-	}
+  @Override
+  public Result runPostProcessing() {
+    return resultIterator.next();
+  }
 
-	@Override
-	public String toString() {
-		return player.toString();
-	}
+  @Override
+  public String toString() {
+    return player.toString();
+  }
 }

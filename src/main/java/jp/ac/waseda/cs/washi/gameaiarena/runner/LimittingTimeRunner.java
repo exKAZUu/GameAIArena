@@ -2,27 +2,27 @@ package jp.ac.waseda.cs.washi.gameaiarena.runner;
 
 import java.io.Serializable;
 
-public class LimittingTimeRunner<Arg, Result extends Serializable, Plyaer>
-		extends AbstractRunner<Arg, Result, Plyaer> {
+public class LimittingTimeRunner<Arg, Result extends Serializable, Controller>
+		extends AbstractRunner<Arg, Result, Controller> {
 
-	private final AbstractRunner<Arg, Result, Plyaer> player;
+	private final AbstractRunner<Arg, Result, Controller> controller;
 	private final int maxMillisecond;
 	private Result result;
 
-	public LimittingTimeRunner(AbstractRunner<Arg, Result, Plyaer> player,
+	public LimittingTimeRunner(AbstractRunner<Arg, Result, Controller> controller,
 			int maxMillisecond) {
-		this.player = player;
+		this.controller = controller;
 		this.maxMillisecond = maxMillisecond;
 	}
 
 	@Override
-	public Plyaer getPlyaer() {
-		return player.getPlyaer();
+	public Controller getController() {
+		return controller.getController();
 	}
 
 	@Override
 	public void runPreProcessing(Arg input) {
-		player.runPreProcessing(input);
+		controller.runPreProcessing(input);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -31,7 +31,7 @@ public class LimittingTimeRunner<Arg, Result extends Serializable, Plyaer>
 		final Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				player.runProcessing();
+				controller.runProcessing();
 			}
 		});
 		thread.start();
@@ -41,7 +41,7 @@ public class LimittingTimeRunner<Arg, Result extends Serializable, Plyaer>
 			e.printStackTrace();
 		}
 		// 時間制限を超えた時点の結果を保存する
-		result = player.runPostProcessing();
+		result = controller.runPostProcessing();
 		if (thread.isAlive()) {
 			System.out.println("terminated the thread because time was exceeded");
 			thread.stop();
@@ -55,6 +55,6 @@ public class LimittingTimeRunner<Arg, Result extends Serializable, Plyaer>
 
 	@Override
 	public String toString() {
-		return player.toString();
+		return controller.toString();
 	}
 }

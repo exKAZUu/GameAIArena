@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import javax.swing.JFrame;
 
 
+
 public class JGameWindow extends JFrame {
   private static final long serialVersionUID = -4977886675727461795L;
 
