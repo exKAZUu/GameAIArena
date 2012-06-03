@@ -20,7 +20,7 @@ public class BufferedImageRenderer extends OriginalBufferedRenderer<BufferedImag
   public void drawPixel(int x, int y, Color c) {
     int[] argb = colors.get(c);
     if (argb == null) {
-      argb = new int[] {c.getRed(), c.getGreen(), c.getBlue()};
+      argb = new int[] {c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()};
       colors.put(c, argb);
     }
     raster.setPixel(x, y, argb);

@@ -12,7 +12,7 @@ public class JGamePanelWithBufferedImage extends JGamePanel {
   private BufferedImageRenderer renderer;
 
   public JGamePanelWithBufferedImage() {
-    this(BufferedImage.TYPE_INT_RGB, false);
+    this(BufferedImage.TYPE_INT_ARGB, false);
   }
 
   public JGamePanelWithBufferedImage(int imageType) {
