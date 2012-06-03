@@ -101,11 +101,9 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
       return;
     }
 
-    Image newImage = this.createEmptyImage(width, height);
+    Image newImage = updateRendererImage(width, height);
     newImage.getGraphics().drawImage(bufferImage, 0, 0, this);
-    bufferImage = newImage;
-    updateRendererImage();
   }
 
-  public abstract void updateRendererImage();
+  public abstract Image updateRendererImage(int width, int height);
 }

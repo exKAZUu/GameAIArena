@@ -26,7 +26,9 @@ public class JGamePanelWithSwingDoubleBuffer extends JGamePanel {
   }
 
   @Override
-  public void updateRendererImage() {}
+  public Image updateRendererImage(int width, int height) {
+    return null;
+  }
 
   @Override
   public void setSize(int width, int height) {

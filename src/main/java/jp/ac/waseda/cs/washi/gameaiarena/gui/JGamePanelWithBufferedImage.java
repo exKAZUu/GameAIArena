@@ -12,7 +12,7 @@ public class JGamePanelWithBufferedImage extends JGamePanel {
   private BufferedImageRenderer renderer;
 
   public JGamePanelWithBufferedImage() {
-    this(BufferedImage.TYPE_INT_ARGB, false);
+    this(BufferedImage.TYPE_INT_RGB, false);
   }
 
   public JGamePanelWithBufferedImage(int imageType) {
@@ -41,8 +41,11 @@ public class JGamePanelWithBufferedImage extends JGamePanel {
   }
 
   @Override
-  public void updateRendererImage() {
-    renderer.updateImage(bufferImage);
+  public Image updateRendererImage(int width, int height) {
+    BufferedImage newImage = this.createEmptyImage(width, height);
+    renderer.updateImage(newImage);
+    bufferImage = newImage;
+    return newImage;
   }
 
   @Override

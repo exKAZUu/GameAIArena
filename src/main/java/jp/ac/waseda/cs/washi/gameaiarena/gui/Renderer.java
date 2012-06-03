@@ -44,13 +44,13 @@ public abstract class Renderer {
     g.drawLine(x, y, x, y);
   }
 
-  public void drawRectangle(int x, int y, int width, int height, Color c) {
+  public void drawRect(int x, int y, int width, int height, Color c) {
     Graphics g = getGraphics();
     g.setColor(c);
     g.drawRect(x, y, width, height);
   }
 
-  public void fillRectangle(int x, int y, int width, int height, Color c) {
+  public void fillRect(int x, int y, int width, int height, Color c) {
     Graphics g = getGraphics();
     g.setColor(c);
     g.fillRect(x, y, width, height);
@@ -82,5 +82,9 @@ public abstract class Renderer {
     panel.forceRepaint();
   }
 
-  public abstract Graphics getGraphics();
+  protected abstract Graphics getGraphics();
+
+  public JGamePanel getPanel() {
+    return panel;
+  }
 }

@@ -29,8 +29,11 @@ public class JGamePanelWithDefaultImage extends JGamePanel {
   }
 
   @Override
-  public void updateRendererImage() {
-    renderer.updateImage(bufferImage);
+  public Image updateRendererImage(int width, int height) {
+    Image newImage = this.createEmptyImage(width, height);
+    renderer.updateImage(newImage);
+    bufferImage = newImage;
+    return newImage;
   }
 
   @Override

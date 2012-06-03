@@ -6,27 +6,27 @@ public class JGamePanels {
 
   }
 
-  public JGamePanel createWithBufferedImage() {
+  public static JGamePanel newWithBufferedImage() {
     return new JGamePanelWithBufferedImage();
   }
 
-  public JGamePanel createWithBufferedImage(int imageType, boolean isDoubleBuffered) {
+  public static JGamePanel newWithBufferedImage(int imageType, boolean isDoubleBuffered) {
     return new JGamePanelWithBufferedImage(imageType, isDoubleBuffered);
   }
 
-  public JGamePanel createWithBufferedImage(int imageType) {
+  public static JGamePanel newWithBufferedImage(int imageType) {
     return new JGamePanelWithBufferedImage(imageType);
   }
 
-  public JGamePanel createWithDefaultImage() {
+  public static JGamePanel newWithDefaultImage() {
     return new JGamePanelWithDefaultImage();
   }
 
-  public JGamePanel createWithDefaultImage(boolean isDoubleBuffered) {
+  public static JGamePanel newWithDefaultImage(boolean isDoubleBuffered) {
     return new JGamePanelWithDefaultImage(isDoubleBuffered);
   }
 
-  public JGamePanel createWithSwingDoubleBuffer() {
+  public static JGamePanel newWithSwingDoubleBuffer() {
     return new JGamePanelWithSwingDoubleBuffer();
   }
 }
