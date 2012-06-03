@@ -7,12 +7,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-
-
 public class JGameWindow extends JFrame {
   private static final long serialVersionUID = -4977886675727461795L;
-
-  private JGamePanel panel;
 
   public JGameWindow() {
     super();
@@ -28,29 +24,11 @@ public class JGameWindow extends JFrame {
     return new Point((desktopRect.width - width) / 2, (desktopRect.height - height) / 2);
   }
 
-  public JGamePanel getPanel() {
-    return panel;
+  public void locateCenter(JGamePanel panel, int width, int height) {
+    show(panel, getCenterPoint(width, height), width, height);
   }
 
-  public Renderer createDefaultDoubleBufferedRenderer() {
-    panel.setDoubleBuffered(true);
-    return panel.createDefaultDoubleBufferedRenderer();
-  }
-
-  public Renderer createSwingDoubleBufferedRenderer() {
-    return panel.createSwingDoubleBufferedRenderer();
-  }
-
-  public Renderer createDuplicateDoubleBufferedRenderer() {
-    return panel.createDuplicateDoubleBufferedRenderer();
-  }
-
-  public void showAtCenter(int width, int height) {
-    show(getCenterPoint(width, height), width, height);
-  }
-
-  public void show(Point location, int width, int height) {
-    panel = new JGamePanel();
+  public void show(JGamePanel panel, Point location, int width, int height) {
     panel.setSize(width, height);
     getContentPane().add(panel, BorderLayout.CENTER);
     pack();

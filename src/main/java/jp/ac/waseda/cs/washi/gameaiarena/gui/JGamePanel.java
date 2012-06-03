@@ -8,21 +8,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
 import java.net.URL;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import jp.ac.waseda.cs.washi.gameaiarena.key.AwtKeyMemorizer;
 
-import com.google.common.collect.Lists;
-
-public class JGamePanel extends JPanel implements GamePanel {
+public abstract class JGamePanel extends JPanel implements GamePanel {
   private static final long serialVersionUID = 6798239655884559261L;
 
-  private Image bufferImage;
-  private final AwtKeyMemorizer keyMemorizer;
-  private final List<GamePanelListener> gamePanelListeners;
+  protected final AwtKeyMemorizer keyMemorizer;
 
   public JGamePanel() {
     this(false);
@@ -32,12 +27,16 @@ public class JGamePanel extends JPanel implements GamePanel {
     super(isDoubleBuffered);
 
     keyMemorizer = new AwtKeyMemorizer();
-    gamePanelListeners = Lists.newArrayList();
   }
 
   @Override
-  public Image createImage(int width, int height) {
-    return super.createImage(width, height);
+  public abstract Image createEmptyImage(int width, int height);
+
+  @Override
+  public Image loadImage(String path) {
+    ClassLoader cl = this.getClass().getClassLoader();
+    URL url = cl.getResource(path);
+    return Toolkit.getDefaultToolkit().getImage(url);
   }
 
   @Override
@@ -72,37 +71,8 @@ public class JGamePanel extends JPanel implements GamePanel {
   }
 
   @Override
-  public Renderer createSwingDoubleBufferedRenderer() {
-    setDoubleBuffered(true);
-    bufferImage = null;
-    return new RawRenderer(this);
-  }
-
-  @Override
-  public Renderer createDefaultDoubleBufferedRenderer() {
-    setDoubleBuffered(false);
-    Dimension d = getPreferredSize();
-    bufferImage = this.createImage(d.width, d.height);
-    return new DoubleBufferedRenderer(this, this, bufferImage);
-  }
-
-  @Override
-  public Renderer createDuplicateDoubleBufferedRenderer() {
-    setDoubleBuffered(true);
-    Dimension d = getPreferredSize();
-    bufferImage = this.createImage(d.width, d.height);
-    return new DoubleBufferedRenderer(this, this, bufferImage);
-  }
-
-  @Override
-  public Image loadImage(String path) {
-    ClassLoader cl = this.getClass().getClassLoader();
-    URL url = cl.getResource(path);
-    return Toolkit.getDefaultToolkit().getImage(url);
-  }
-
-  @Override
   public void paintComponent(Graphics g) {
+    Image bufferImage = getBufferImage();
     if (bufferImage == null) {
       super.paintComponent(g);
     } else {
@@ -123,6 +93,7 @@ public class JGamePanel extends JPanel implements GamePanel {
   }
 
   private void resizeBufferImage(int width, int height) {
+    Image bufferImage = getBufferImage();
     if (bufferImage == null) {
       return;
     }
@@ -130,17 +101,11 @@ public class JGamePanel extends JPanel implements GamePanel {
       return;
     }
 
-    Image newImage = this.createImage(width, height);
+    Image newImage = this.createEmptyImage(width, height);
     newImage.getGraphics().drawImage(bufferImage, 0, 0, this);
     bufferImage = newImage;
-
-    for (GamePanelListener listener : gamePanelListeners) {
-      listener.updatedBufferImage(newImage);
-    }
+    updateRendererImage();
   }
 
-  @Override
-  public void addGamePnaelListenerForRenderer(GamePanelListener listener) {
-    gamePanelListeners.add(listener);
-  }
+  public abstract void updateRendererImage();
 }

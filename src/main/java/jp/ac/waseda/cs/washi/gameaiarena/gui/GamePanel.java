@@ -7,7 +7,11 @@ import java.awt.image.ImageObserver;
 import jp.ac.waseda.cs.washi.gameaiarena.key.AwtKeyMemorizer;
 
 public interface GamePanel {
-  Image createImage(int width, int height);
+  Image getBufferImage();
+
+  Image createEmptyImage(int width, int height);
+
+  Image loadImage(String path);
 
   void forceRepaint();
 
@@ -15,19 +19,11 @@ public interface GamePanel {
 
   ImageObserver getObserver();
 
-  Image loadImage(String path);
-
   void setSize(Dimension dimension);
 
   void setSize(int width, int height);
 
-  Renderer createSwingDoubleBufferedRenderer();
-
-  Renderer createDefaultDoubleBufferedRenderer();
-
-  Renderer createDuplicateDoubleBufferedRenderer();
+  Renderer createRenderer();
 
   void initialize();
-
-  void addGamePnaelListenerForRenderer(GamePanelListener listener);
 }
