@@ -19,6 +19,12 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
 
   protected final AwtKeyMemorizer keyMemorizer;
 
+  private int newWidth;
+
+  private int newHeight;
+
+  private boolean resized;
+
   public JGamePanel() {
     this(false);
   }
@@ -83,25 +89,35 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
   @Override
   public void setSize(Dimension d) {
     super.setSize(d);
-    resizeBufferImage(d.width, d.height);
+    newWidth = d.width;
+    newHeight = d.height;
+    resized = true;
+    tryResizeBufferImage();
   }
 
   @Override
   public void setSize(int width, int height) {
     super.setSize(width, height);
-    resizeBufferImage(width, height);
+    newWidth = width;
+    newHeight = height;
+    resized = true;
+    tryResizeBufferImage();
   }
 
-  private void resizeBufferImage(int width, int height) {
+  protected void tryResizeBufferImage() {
+    if (!resized) {
+      return;
+    }
+    resized = false;
     Image bufferImage = getBufferImage();
     if (bufferImage == null) {
       return;
     }
-    if (width == bufferImage.getWidth(this) && height == bufferImage.getHeight(this)) {
+    if (newWidth == bufferImage.getWidth(this) && newHeight == bufferImage.getHeight(this)) {
       return;
     }
 
-    Image newImage = updateRendererImage(width, height);
+    Image newImage = updateRendererImage(newWidth, newHeight);
     newImage.getGraphics().drawImage(bufferImage, 0, 0, this);
   }
 

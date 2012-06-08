@@ -80,6 +80,7 @@ public abstract class Renderer {
 
   protected void forceRepaint() {
     panel.forceRepaint();
+    panel.tryResizeBufferImage();
   }
 
   protected abstract Graphics getGraphics();
