@@ -92,7 +92,6 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
     newWidth = d.width;
     newHeight = d.height;
     resized = true;
-    tryResizeBufferImage();
   }
 
   @Override
@@ -101,7 +100,6 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
     newWidth = width;
     newHeight = height;
     resized = true;
-    tryResizeBufferImage();
   }
 
   protected void tryResizeBufferImage() {
