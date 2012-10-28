@@ -12,6 +12,7 @@ public class SceneManager {
   private double mspf;
   private int maxSkip;
   private boolean ended;
+  private long nextTime;
 
   public SceneManager() {
     this(60);
@@ -38,54 +39,65 @@ public class SceneManager {
   }
 
   public <Env extends Environment> void run(final Env env, final Scene<Env> firstScene) {
+    Scene<Env> scene = initialize(env, firstScene);
+    while (!ended) {
+      scene = runOneStep(env, scene);
+    }
+    scene.release();
+  }
+
+  public <Env extends Environment> Scene<Env> initialize(final Env env, final Scene<Env> firstScene) {
     Scene<Env> scene = firstScene;
     scene.setEnvironment(env);
     scene.initialize();
-    long nextTime = System.currentTimeMillis();
+    ended = true;
+    nextTime = System.currentTimeMillis();
+    return scene;
+  }
 
-    while (!ended) {
-      int maxSkip = this.maxSkip; // 最大で連続に設定した回数(maxSkip回)runを実行
-      long nowTime;
-      do {
-        // キー入力の更新
-        if (env.getInputer() != null) {
-          env.getInputer().update();
-        }
-        // シーンの処理
-        final Scene<Env> nextScene = scene.run();
-        if (nextScene != scene) {
-          scene.release();
-          if (nextScene == null) {
-            return;
-          }
-          scene = nextScene;
-          scene.setEnvironment(env);
-          scene.initialize();
-        }
-
-        nextTime += this.mspf;
-        nowTime = System.currentTimeMillis();
-        if (--maxSkip <= 0) {
-          break;
-        }
-      } while (nextTime <= nowTime);
-
-      if (nextTime > nowTime) {
-        try {
-          Thread.sleep(nextTime - nowTime);
-        } catch (final InterruptedException e) {
-          e.printStackTrace();
-        }
+  public <Env extends Environment> Scene<Env> runOneStep(final Env env, Scene<Env> scene) {
+    int maxSkip = this.maxSkip; // 最大で連続に設定した回数(maxSkip回)runを実行
+    long nowTime;
+    do {
+      // キー入力の更新
+      if (env.getInputer() != null) {
+        env.getInputer().update();
       }
-      if (env.getRenderer() != null) {
-        scene.draw();
-        env.getRenderer().forceRepaint();
-        for (Renderer renderer : env.getSubRenderers()) {
-          renderer.forceRepaint();
+      // シーンの処理
+      final Scene<Env> nextScene = scene.run();
+      if (nextScene != scene) {
+        scene.release();
+        if (nextScene == null) {
+          ended = true;
+          return null;
         }
+        scene = nextScene;
+        scene.setEnvironment(env);
+        scene.initialize();
+      }
+
+      nextTime += this.mspf;
+      nowTime = System.currentTimeMillis();
+      if (--maxSkip <= 0) {
+        break;
+      }
+    } while (nextTime <= nowTime);
+
+    if (nextTime > nowTime) {
+      try {
+        Thread.sleep(nextTime - nowTime);
+      } catch (final InterruptedException e) {
+        e.printStackTrace();
       }
     }
-    scene.release();
+    if (env.getRenderer() != null) {
+      scene.draw();
+      env.getRenderer().forceRepaint();
+      for (Renderer renderer : env.getSubRenderers()) {
+        renderer.forceRepaint();
+      }
+    }
+    return scene;
   }
 
   public void setFps(double fps) {
