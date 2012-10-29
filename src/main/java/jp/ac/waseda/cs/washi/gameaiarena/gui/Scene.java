@@ -2,7 +2,6 @@ package jp.ac.waseda.cs.washi.gameaiarena.gui;
 
 import java.util.List;
 
-import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
 import jp.ac.waseda.cs.washi.gameaiarena.key.MappedInputer;
 
 public abstract class Scene<Env extends Environment> {

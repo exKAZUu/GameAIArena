@@ -25,19 +25,23 @@ public class JGamePanelWithBufferedImage extends JGamePanel {
   }
 
   @Override
+  public Renderer getRenderer() {
+    return renderer;
+  }
+
+  @Override
   public BufferedImage createEmptyImage(int width, int height) {
     return new BufferedImage(width, height, imageType);
   }
 
   @Override
-  public Renderer createRenderer() {
+  protected void initializeRenderer() {
     if (renderer == null) {
       setDoubleBuffered(false);
       Dimension d = getPreferredSize();
       bufferImage = this.createEmptyImage(d.width, d.height);
       renderer = new BufferedImageRenderer(this, bufferImage);
     }
-    return renderer;
   }
 
   @Override

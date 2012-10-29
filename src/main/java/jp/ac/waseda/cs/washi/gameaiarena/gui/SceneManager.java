@@ -5,7 +5,6 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import jp.ac.waseda.cs.washi.gameaiarena.common.Environment;
 
 public class SceneManager {
   private double fps;
@@ -38,7 +37,7 @@ public class SceneManager {
     return this.mspf;
   }
 
-  public <Env extends Environment> void run(final Env env, final Scene<Env> firstScene) {
+  public <Env extends Environment> void start(final Env env, final Scene<Env> firstScene) {
     Scene<Env> scene = initialize(env, firstScene);
     while (!ended) {
       scene = runOneStep(env, scene);
@@ -100,17 +99,15 @@ public class SceneManager {
     return scene;
   }
 
-  public void setFps(double fps) {
+  public SceneManager setFps(double fps) {
     this.fps = fps;
     this.mspf = 1000 / fps;
+    return this;
   }
 
-  public void setMaxSkip(int maxSkip) {
+  public SceneManager setMaxSkip(int maxSkip) {
     this.maxSkip = maxSkip;
-  }
-
-  public void terminate() {
-    ended = true;
+    return this;
   }
 
   /**
@@ -118,7 +115,7 @@ public class SceneManager {
    * 
    * @param window the window to be added a window listener
    */
-  public void addWindowListenerForTerminating(Window window) {
+  public SceneManager addWindowListenerForTerminating(Window window) {
     window.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
@@ -130,5 +127,10 @@ public class SceneManager {
         terminate();
       }
     });
+    return this;
+  }
+
+  public void terminate() {
+    ended = true;
   }
 }

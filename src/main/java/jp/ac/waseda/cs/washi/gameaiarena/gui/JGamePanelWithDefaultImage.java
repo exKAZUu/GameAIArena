@@ -18,14 +18,18 @@ public class JGamePanelWithDefaultImage extends JGamePanel {
   }
 
   @Override
-  public Renderer createRenderer() {
+  public Renderer getRenderer() {
+    return renderer;
+  }
+
+  @Override
+  protected void initializeRenderer() {
     if (renderer == null) {
       setDoubleBuffered(false);
       Dimension d = getPreferredSize();
       bufferImage = this.createEmptyImage(d.width, d.height);
       renderer = new DefaultImageRenderer(this, bufferImage);
     }
-    return renderer;
   }
 
   @Override

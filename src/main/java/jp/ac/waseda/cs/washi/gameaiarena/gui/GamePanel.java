@@ -23,7 +23,7 @@ public interface GamePanel {
 
   void setSize(int width, int height);
 
-  Renderer createRenderer();
+  Renderer getRenderer();
 
-  void initialize();
+  void initializeAfterShowing();
 }

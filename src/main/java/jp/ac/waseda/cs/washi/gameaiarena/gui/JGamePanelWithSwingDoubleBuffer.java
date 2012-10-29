@@ -5,6 +5,7 @@ import java.awt.Image;
 
 public class JGamePanelWithSwingDoubleBuffer extends JGamePanel {
   private static final long serialVersionUID = -1326447066743126992L;
+  private RawRenderer renderer;
 
   public JGamePanelWithSwingDoubleBuffer() {
     this(false);
@@ -15,9 +16,16 @@ public class JGamePanelWithSwingDoubleBuffer extends JGamePanel {
   }
 
   @Override
-  public Renderer createRenderer() {
-    setDoubleBuffered(true);
-    return new RawRenderer(this);
+  public Renderer getRenderer() {
+    return renderer;
+  }
+
+  @Override
+  protected void initializeRenderer() {
+    if (renderer == null) {
+      setDoubleBuffered(true);
+      renderer = new RawRenderer(this);
+    }
   }
 
   @Override

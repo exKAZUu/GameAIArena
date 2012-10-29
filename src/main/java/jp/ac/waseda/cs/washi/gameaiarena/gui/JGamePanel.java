@@ -64,7 +64,7 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
   }
 
   @Override
-  public void initialize() {
+  public void initializeAfterShowing() {
     final JComponent keyFocus = this;
     keyFocus.addKeyListener(keyMemorizer);
     keyFocus.addMouseListener(new MouseAdapter() {
@@ -74,7 +74,10 @@ public abstract class JGamePanel extends JPanel implements GamePanel {
       }
     });
     keyFocus.requestFocusInWindow();
+    initializeRenderer();
   }
+
+  protected abstract void initializeRenderer();
 
   @Override
   public void paintComponent(Graphics g) {
