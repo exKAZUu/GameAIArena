@@ -51,7 +51,7 @@ public abstract class Environment extends TypeSafeCloneable<Environment> {
 
   @SuppressWarnings("unchecked")
   public <TEnv extends Environment> void start(Scene<TEnv> startScene) {
-    _sceneManager.start((TEnv) this, startScene);
+    _sceneManager.run((TEnv) this, startScene);
   }
 
   @Override

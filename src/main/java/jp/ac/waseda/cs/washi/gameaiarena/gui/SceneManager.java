@@ -37,10 +37,38 @@ public class SceneManager {
     return this.mspf;
   }
 
-  public <Env extends Environment> void start(final Env env, final Scene<Env> firstScene) {
+  public <Env extends Environment> void run(final Env env, final Scene<Env> firstScene) {
     Scene<Env> scene = initialize(env, firstScene);
     while (!ended) {
-      scene = runOneStep(env, scene);
+      int maxSkip = this.maxSkip; // 最大で連続に設定した回数(maxSkip回)runを実行
+      long nowTime;
+      do {
+        scene = runOneStep(env, scene);
+        if (scene == null) {
+          return;
+        }
+
+        nextTime += this.mspf;
+        nowTime = System.currentTimeMillis();
+        if (--maxSkip <= 0) {
+          break;
+        }
+      } while (nextTime <= nowTime);
+
+      if (nextTime > nowTime) {
+        try {
+          Thread.sleep(nextTime - nowTime);
+        } catch (final InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+      if (env.getRenderer() != null) {
+        scene.draw();
+        env.getRenderer().forceRepaint();
+        for (Renderer renderer : env.getSubRenderers()) {
+          renderer.forceRepaint();
+        }
+      }
     }
     scene.release();
   }
@@ -49,52 +77,26 @@ public class SceneManager {
     Scene<Env> scene = firstScene;
     scene.setEnvironment(env);
     scene.initialize();
-    ended = true;
+    ended = false;
     nextTime = System.currentTimeMillis();
     return scene;
   }
 
   public <Env extends Environment> Scene<Env> runOneStep(final Env env, Scene<Env> scene) {
-    int maxSkip = this.maxSkip; // 最大で連続に設定した回数(maxSkip回)runを実行
-    long nowTime;
-    do {
-      // キー入力の更新
-      if (env.getInputer() != null) {
-        env.getInputer().update();
-      }
-      // シーンの処理
-      final Scene<Env> nextScene = scene.run();
-      if (nextScene != scene) {
-        scene.release();
-        if (nextScene == null) {
-          ended = true;
-          return null;
-        }
-        scene = nextScene;
-        scene.setEnvironment(env);
-        scene.initialize();
-      }
-
-      nextTime += this.mspf;
-      nowTime = System.currentTimeMillis();
-      if (--maxSkip <= 0) {
-        break;
-      }
-    } while (nextTime <= nowTime);
-
-    if (nextTime > nowTime) {
-      try {
-        Thread.sleep(nextTime - nowTime);
-      } catch (final InterruptedException e) {
-        e.printStackTrace();
-      }
+    // キー入力の更新
+    if (env.getInputer() != null) {
+      env.getInputer().update();
     }
-    if (env.getRenderer() != null) {
-      scene.draw();
-      env.getRenderer().forceRepaint();
-      for (Renderer renderer : env.getSubRenderers()) {
-        renderer.forceRepaint();
+    // シーンの処理
+    final Scene<Env> nextScene = scene.run();
+    if (nextScene != scene) {
+      scene.release();
+      if (nextScene == null) {
+        return null;
       }
+      scene = nextScene;
+      scene.setEnvironment(env);
+      scene.initialize();
     }
     return scene;
   }

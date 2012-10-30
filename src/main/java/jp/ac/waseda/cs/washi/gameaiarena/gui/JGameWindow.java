@@ -19,18 +19,18 @@ public class JGameWindow extends JFrame {
     super(title);
   }
 
-  private Point getCenterPoint(int width, int height) {
+  public static Point getCenterLocation(int width, int height) {
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
     Rectangle desktopRect = env.getMaximumWindowBounds();
     return new Point((desktopRect.width - width) / 2, (desktopRect.height - height) / 2);
   }
 
   public JGamePanel showAtCenter(int width, int height) {
-    return show(GamePanels.newWithDefaultImage(), getCenterPoint(width, height), width, height);
+    return show(GamePanels.newWithDefaultImage(), getCenterLocation(width, height), width, height);
   }
 
   public JGamePanel showAtCenter(JGamePanel panel, int width, int height) {
-    return show(panel, getCenterPoint(width, height), width, height);
+    return show(panel, getCenterLocation(width, height), width, height);
   }
 
   public JGamePanel show(Point location, int width, int height) {
