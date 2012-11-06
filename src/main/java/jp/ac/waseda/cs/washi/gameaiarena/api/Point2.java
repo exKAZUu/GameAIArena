@@ -3,6 +3,8 @@ package jp.ac.waseda.cs.washi.gameaiarena.api;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * int型で指定される(x, y)座標空間における位置を表すイミュータブルなPoint型です。
  */
@@ -176,5 +178,33 @@ public class Point2 implements Comparable<Point2>, Serializable {
   @Override
   public String toString() {
     return "{ X = " + x + ", Y = " + y + " }";
+  }
+
+  /**
+   * 文字列表現から{@link Point2}インスタンスへ変換します。
+   * 
+   * @param str {@link Point2}インスタンスへ変換する文字列
+   * @return 変換した{@link Point2}インスタンス
+   */
+  public static Point2 parse(String str) {
+    String[] numbers = str.split(",");
+    if (numbers.length != 2) {
+      throw new IllegalArgumentException("'str' has an invalid format.");
+    }
+    int[] vs = new int[2];
+    for (int i = 0; i < numbers.length; i++) {
+      String number = numbers[i];
+      int left =
+          StringUtils.indexOfAny(number, new char[] {'+', '-', '0', '1', '2', '3', '4', '5', '6',
+              '7', '8', '9'});
+      int right =
+          StringUtils.lastIndexOfAny(numbers[i], new String[] {"0", "1", "2", "3", "4", "5", "6",
+              "7", "8", "9"});
+      if (!(0 <= left && left <= right)) {
+        throw new IllegalArgumentException("'str' has an invalid format.");
+      }
+      vs[i] = Integer.parseInt(numbers[i].substring(left, right + 1));
+    }
+    return new Point2(vs[0], vs[1]);
   }
 }
