@@ -18,8 +18,8 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Controller
   }
 
   @Override
-  public Controller getController() {
-    return controller.getController();
+  public Controller getComputerPlayer() {
+    return controller.getComputerPlayer();
   }
 
   @Override

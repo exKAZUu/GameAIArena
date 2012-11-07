@@ -16,8 +16,8 @@ public class ReplayingMemoryRunner<Arg, Result extends Serializable, Controller>
   }
 
   @Override
-  public Controller getController() {
-    return player.getController();
+  public Controller getComputerPlayer() {
+    return player.getComputerPlayer();
   }
 
   @Override

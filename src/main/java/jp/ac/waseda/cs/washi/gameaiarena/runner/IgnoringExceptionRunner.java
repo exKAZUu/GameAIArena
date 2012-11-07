@@ -12,8 +12,8 @@ public class IgnoringExceptionRunner<Arg, Result extends Serializable, Controlle
   }
 
   @Override
-  public Controller getController() {
-    return controller.getController();
+  public Controller getComputerPlayer() {
+    return controller.getComputerPlayer();
   }
 
   @Override
