@@ -50,6 +50,10 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Controller
     long consumedTime = System.currentTimeMillis() - currentTimeMillis;
     if (consumedTime > availableMillisecond) {
       restExceededMillisecond -= consumedTime - availableMillisecond;
+      System.out.println("time was exceeded.");
+      System.out.println("    consumed millseconds in this turn: " + consumedTime);
+      System.out.println("    available millseconds in this turn: " + availableMillisecond);
+      System.out.println("    all remaining available millseconds: " + restExceededMillisecond);
     }
     // 時間制限を超えた時点の結果を保存する
     result = controller.runPostProcessing();
