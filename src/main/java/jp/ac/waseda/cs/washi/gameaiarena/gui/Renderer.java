@@ -1,6 +1,7 @@
 package jp.ac.waseda.cs.washi.gameaiarena.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -72,9 +73,24 @@ public abstract class Renderer {
     } catch (final InterruptedException e) {}
   }
 
+  public void drawString(String str, int x, int y) {
+    drawString(str, x, y, Color.BLACK);
+  }
+
   public void drawString(String str, int x, int y, Color c) {
     Graphics g = getGraphics();
     g.setColor(c);
+    g.drawString(str, x, y);
+  }
+
+  public void drawString(String str, int x, int y, Font f) {
+	  drawString(str, x, y, Color.BLACK, f);
+  }
+
+  public void drawString(String str, int x, int y, Color c, Font f) {
+    Graphics g = getGraphics();
+    g.setColor(c);
+    g.setFont(f);
     g.drawString(str, x, y);
   }
 
