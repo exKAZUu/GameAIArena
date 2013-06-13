@@ -14,16 +14,16 @@
  
   <name>GameAIArena</name>
   <description>Game AI Arena(GAIA) is a framework which provides common architecture, design and code for competition system through AI programming on game software.</description>
-  <url>http://code.google.com/p/gameaiarena/</url>
+  <url>https://github.com/exKAZUu/GameAIArena</url>
   <inceptionYear>2009</inceptionYear>
   <organization>
-    <name>Washizaki Laboratory, Dept. Computer Science and Engineering, Waseda University</name>
-    <url>http://www.washi.cs.waseda.ac.jp</url>
+    <name>National Institute of Informatics</name>
+    <url>https://github.com/exKAZUu</url>
   </organization>
 
   <issueManagement>
-    <system>code.google.com</system>
-    <url>http://code.google.com/p/gameaiarena/issues</url>
+    <system>github.com</system>
+    <url>https://github.com/exKAZUu/GameAIArena/issues</url>
   </issueManagement>
   <licenses>
     <license>
@@ -33,9 +33,10 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:https://code.google.com/p/gameaiarena/</connection>
-    <developerConnection>scm:git:https://code.google.com/p/gameaiarena/</developerConnection>
-    <url>http://code.google.com/p/gameaiarena/source/browse</url>
+  
+    <connection>scm:git:git://github.com/exKAZUu/GameAIArena.git</connection>
+    <developerConnection>scm:git:git://github.com/exKAZUu/GameAIArena.git</developerConnection>
+    <url>https://github.com/exKAZUu/GameAIArena</url>
   </scm>
   <developers>
     <developer>
