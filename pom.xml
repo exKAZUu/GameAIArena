@@ -9,7 +9,7 @@
 
   <groupId>net.exkazuu</groupId>
   <artifactId>GameAIArena</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
   <packaging>jar</packaging>
  
   <name>GameAIArena</name>
@@ -33,10 +33,9 @@
     </license>
   </licenses>
   <scm>
-  
-    <connection>scm:git:git://github.com/exKAZUu/GameAIArena.git</connection>
-    <developerConnection>scm:git:git://github.com/exKAZUu/GameAIArena.git</developerConnection>
-    <url>https://github.com/exKAZUu/GameAIArena</url>
+    <connection>scm:git:git@github.com:exKAZUu/GameAIArena.git</connection>
+    <developerConnection>scm:git:git@github.com:exKAZUu/GameAIArena.git</developerConnection>
+    <url>scm:git:git@github.com:exKAZUu/GameAIArena.git</url>
   </scm>
   <developers>
     <developer>
@@ -44,7 +43,7 @@
       <name>Kazunori SAKAMOTO</name>
       <email>exkazuu@gmail.com</email>
       <organization>National Institute of Informatics</organization>
-      <organizationUrl>http://www.washi.cs.waseda.ac.jp</organizationUrl>
+      <organizationUrl>http://www.nii.ac.jp/</organizationUrl>
       <roles>
         <role>owner</role>
         <role>developer</role>

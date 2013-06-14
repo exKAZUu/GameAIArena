@@ -7,7 +7,7 @@ public abstract class DefaultScene<Env extends Environment> extends Scene<Env> {
 
   public void release() {}
 
-  public DefaultScene<Env> run() {
+  public Scene<Env> run() {
     return this;
   }
 
