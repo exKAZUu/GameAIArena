@@ -9,7 +9,7 @@
 
   <groupId>net.exkazuu</groupId>
   <artifactId>GameAIArena</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.3</version>
   <packaging>jar</packaging>
  
   <name>GameAIArena</name>
