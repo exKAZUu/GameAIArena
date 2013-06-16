@@ -19,7 +19,7 @@ public class GameGuiBuilder {
 
   public GameGuiBuilder() {
     _windowCreator = new WindowCreator();
-    _defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE;
+    _defaultCloseOperation = JFrame.DO_NOTHING_ON_CLOSE;
   }
 
   public <Env extends Environment> GameGuiBuildResult<Env> buildForCui(Class<Env> clazz) {
