@@ -10,8 +10,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Point2 implements Comparable<Point2>, Serializable {
   /**
-	 * 
-	 */
+   * 
+   */
   private static final long serialVersionUID = 4512703319714201609L;
 
   /**
