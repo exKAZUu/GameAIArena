@@ -105,7 +105,7 @@ public class ExternalComputerPlayer {
     _process = null;
   }
 
-  protected void writeLine(String str) {
+  public void writeLine(String str) {
     if (_stdinLogStream != null) {
       _stdinLogStream.println(str);
     }
@@ -113,8 +113,8 @@ public class ExternalComputerPlayer {
     _writer.flush();
   }
 
-  protected String readLine() {
-    String line = "";
+  public String readLine() {
+    String line = null;
     try {
       line = _reader.readLine();
     } catch (IOException e) {
@@ -134,7 +134,9 @@ public class ExternalComputerPlayer {
       }
       String line;
       while (_errorReader.ready() && (line = _errorReader.readLine()) != null) {
-        _errorLogStream.println(line);
+        if (_errorLogStream != null) {
+          _errorLogStream.println(line);
+        }
       }
     } catch (IOException e) {
       System.err.println("Fail to read the error stream.");

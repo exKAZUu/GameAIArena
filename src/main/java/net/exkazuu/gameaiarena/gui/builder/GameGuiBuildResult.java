@@ -5,12 +5,12 @@ import javax.swing.JFrame;
 import net.exkazuu.gameaiarena.gui.Environment;
 import net.exkazuu.gameaiarena.gui.JGamePanel;
 
-public class BuildResult<Env extends Environment> {
+public class GameGuiBuildResult<Env extends Environment> {
   private final Env _env;
   private final JFrame _window;
   private final JGamePanel _panel;
 
-  public BuildResult(Env env, JFrame window, JGamePanel panel) {
+  public GameGuiBuildResult(Env env, JFrame window, JGamePanel panel) {
     _env = env;
     _window = window;
     _panel = panel;
