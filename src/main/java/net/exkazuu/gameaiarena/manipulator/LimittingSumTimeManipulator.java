@@ -31,6 +31,7 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable, Contr
   @Override
   public void runProcessing() {
     if (restExceededMillisecond <= 0) {
+      result = manipulator.runPostProcessing();
       return;
     }
     final Thread thread = new Thread(new Runnable() {
