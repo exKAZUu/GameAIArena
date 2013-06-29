@@ -39,7 +39,8 @@ public class SceneManager {
   }
 
   public <Env extends Environment> void run(final Env env, final Scene<Env> firstScene) {
-    Scene<Env> scene = initialize(env, firstScene);
+    Scene<Env> scene = firstScene;
+    initialize(env, scene);
     while (!ended) {
       int maxSkip = this.maxSkip; // 最大で連続に設定した回数(maxSkip回)runを実行
       long nowTime;
@@ -74,13 +75,12 @@ public class SceneManager {
     scene.release();
   }
 
-  public <Env extends Environment> Scene<Env> initialize(final Env env, final Scene<Env> firstScene) {
+  public <Env extends Environment> void initialize(final Env env, final Scene<Env> firstScene) {
     Scene<Env> scene = firstScene;
     scene.setEnvironment(env);
     scene.initialize();
     ended = false;
     nextTime = System.currentTimeMillis();
-    return scene;
   }
 
   public <Env extends Environment> Scene<Env> runOneStep(final Env env, Scene<Env> scene) {
