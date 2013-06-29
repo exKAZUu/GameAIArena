@@ -18,7 +18,8 @@ public class SampleGamePanelMainTest {
 
   @Test
   public void testBuilderForCui() {
-    GameGuiBuildResult<SampleEnvironment> ret = new GameGuiBuilder().buildForCui(SampleEnvironment.class);
+    GameGuiBuildResult<SampleEnvironment> ret =
+        new GameGuiBuilder().buildForCui(SampleEnvironment.class);
     ret.getEnvironment().start(new TestScene());
   }
 }

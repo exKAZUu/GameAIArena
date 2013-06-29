@@ -85,7 +85,7 @@ public abstract class Renderer {
   }
 
   public void drawString(String str, int x, int y, Font f) {
-	  drawString(str, x, y, Color.BLACK, f);
+    drawString(str, x, y, Color.BLACK, f);
   }
 
   public void drawString(String str, int x, int y, Color c, Font f) {

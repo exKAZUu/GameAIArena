@@ -26,7 +26,8 @@ public class GameGuiBuilder {
     return buildForCui(EnvironmentCreator.defaultCreator(clazz));
   }
 
-  public <Env extends Environment> GameGuiBuildResult<Env> buildForCui(EnvironmentCreator<Env> envCreator) {
+  public <Env extends Environment> GameGuiBuildResult<Env> buildForCui(
+      EnvironmentCreator<Env> envCreator) {
     Env env = envCreator.createEnvironment(null, null);
     if (_fps != null) {
       env.getSceneManager().setFps(_fps);
@@ -38,7 +39,8 @@ public class GameGuiBuilder {
     return buildForGui(EnvironmentCreator.defaultCreator(clazz));
   }
 
-  public <Env extends Environment> GameGuiBuildResult<Env> buildForGui(EnvironmentCreator<Env> envCreator) {
+  public <Env extends Environment> GameGuiBuildResult<Env> buildForGui(
+      EnvironmentCreator<Env> envCreator) {
     JGamePanel gamePanel =
         _imageType == null ? GamePanels.newWithDefaultImage() : GamePanels
             .newWithBufferedImage(_imageType);

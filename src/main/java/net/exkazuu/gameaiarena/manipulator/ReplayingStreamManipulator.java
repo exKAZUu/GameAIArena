@@ -1,34 +1,34 @@
-package net.exkazuu.gameaiarena.runner;
+package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public class ReplayingStreamRunner<Arg, Result extends Serializable, Controller>
-    extends AbstractRunner<Arg, Result, Controller> {
+public class ReplayingStreamManipulator<Arg, Result extends Serializable, Controller>
+    extends Manipulator<Arg, Result, Controller> {
 
-  private final AbstractRunner<Arg, Result, Controller> controller;
+  private final Manipulator<Arg, Result, Controller> manipulator;
   private final ObjectInputStream ois;
 
-  public ReplayingStreamRunner(AbstractRunner<Arg, Result, Controller> controller,
+  public ReplayingStreamManipulator(Manipulator<Arg, Result, Controller> manipulator,
       ObjectInputStream ois) {
-    this.controller = controller;
+    this.manipulator = manipulator;
     this.ois = ois;
   }
 
   @Override
   public Controller getComputerPlayer() {
-    return controller.getComputerPlayer();
+    return manipulator.getComputerPlayer();
   }
 
   @Override
   public void runPreProcessing(Arg input) {
-    controller.runPreProcessing(input);
+    manipulator.runPreProcessing(input);
   }
 
   @Override
   public void runProcessing() {
-    controller.runProcessing();
+    manipulator.runProcessing();
   }
 
   @SuppressWarnings("unchecked")
@@ -46,6 +46,6 @@ public class ReplayingStreamRunner<Arg, Result extends Serializable, Controller>
 
   @Override
   public String toString() {
-    return controller.toString();
+    return manipulator.toString();
   }
 }

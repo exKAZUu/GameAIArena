@@ -1,30 +1,30 @@
-package net.exkazuu.gameaiarena.runner;
+package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.Serializable;
 
-public class LimittingSumTimeRunner<Arg, Result extends Serializable, Controller>
-    extends AbstractRunner<Arg, Result, Controller> {
+public class LimittingSumTimeManipulator<Arg, Result extends Serializable, Controller>
+    extends Manipulator<Arg, Result, Controller> {
 
-  private final AbstractRunner<Arg, Result, Controller> controller;
+  private final Manipulator<Arg, Result, Controller> manipulator;
   private final int availableMillisecond;
   private int restExceededMillisecond;
   private Result result;
 
-  public LimittingSumTimeRunner(AbstractRunner<Arg, Result, Controller> controller,
+  public LimittingSumTimeManipulator(Manipulator<Arg, Result, Controller> manipulator,
       int availableMillisecond, int maxExceededMillisecond) {
-    this.controller = controller;
+    this.manipulator = manipulator;
     this.availableMillisecond = availableMillisecond;
     this.restExceededMillisecond = maxExceededMillisecond;
   }
 
   @Override
   public Controller getComputerPlayer() {
-    return controller.getComputerPlayer();
+    return manipulator.getComputerPlayer();
   }
 
   @Override
   public void runPreProcessing(Arg input) {
-    controller.runPreProcessing(input);
+    manipulator.runPreProcessing(input);
   }
 
   @SuppressWarnings("deprecation")
@@ -36,7 +36,7 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Controller
     final Thread thread = new Thread(new Runnable() {
       @Override
       public void run() {
-        controller.runProcessing();
+        manipulator.runProcessing();
       }
     });
     long currentTimeMillis = System.currentTimeMillis();
@@ -56,7 +56,7 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Controller
       System.out.println("    all remaining available millseconds: " + restExceededMillisecond);
     }
     // 時間制限を超えた時点の結果を保存する
-    result = controller.runPostProcessing();
+    result = manipulator.runPostProcessing();
     if (thread.isAlive()) {
       System.out.println("terminated the thread because time was exceeded");
       restExceededMillisecond = 0;
@@ -71,6 +71,6 @@ public class LimittingSumTimeRunner<Arg, Result extends Serializable, Controller
 
   @Override
   public String toString() {
-    return controller.toString();
+    return manipulator.toString();
   }
 }
