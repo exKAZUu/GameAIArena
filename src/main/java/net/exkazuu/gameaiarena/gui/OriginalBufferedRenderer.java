@@ -27,7 +27,8 @@ public abstract class OriginalBufferedRenderer<TImage extends Image> extends Ren
   }
 
   @Override
-  public void clear(Color c) {
+  public final void clear(Color c) {
+    if (enabledLogging()) log("clear", logColor(c));
     graphics.setColor(c);
     graphics.fillRect(0, 0, image.getWidth(imageObserver), image.getHeight(imageObserver));
   }

@@ -25,26 +25,18 @@ public abstract class Renderer {
     this.image2Ids = new HashMap<Image, Integer>();
   }
 
-  public void clear(Color c) {
-    if (stream != null) {
-      stream.println("[clear," + logColor(c) + "]");
-    }
-  }
+  public abstract void clear(Color c);
 
-  public Image createImage(int width, int height) {
-    if (stream != null) {
-      stream.println("[createImage," + width + "," + height + "," + imageCount + "]");
-    }
+  public final Image createImage(int width, int height) {
+    if (enabledLogging()) log("createImage", width + "," + height + "," + imageCount);
     Image image = panel.createEmptyImage(width, height);
     image2Ids.put(image, imageCount++);
     return image;
   }
 
-  public Image createImage(int width, int height, Color c) {
-    if (stream != null) {
-      stream.println("[createImage," + width + "," + height + "," + logColor(c) + "," + imageCount
-          + "]");
-    }
+  public final Image createImage(int width, int height, Color c) {
+    if (enabledLogging())
+      log("createImage", width + "," + height + "," + logColor(c) + "," + imageCount);
     Image image = panel.createEmptyImage(width, height);
     Graphics g = image.getGraphics();
     g.setColor(c);
@@ -54,126 +46,124 @@ public abstract class Renderer {
     return image;
   }
 
-  public void drawImage(Image img, int x, int y) {
-    if (stream != null) {
-      stream.println("[drawImage," + image2Ids.get(img) + "," + x + "," + y + "]");
-    }
+  public final void drawImage(Image img, int x, int y) {
+    if (enabledLogging()) log("drawImage", image2Ids.get(img) + "," + x + "," + y);
     Graphics g = getGraphics();
     g.drawImage(img, x, y, imageObserver);
   }
 
   public void drawPixel(int x, int y, Color c) {
-    if (stream != null) {
-      stream.println("[drawPixel," + x + "," + y + "," + logColor(c) + "]");
-    }
+    if (enabledLogging()) log("drawPixel", x + "," + y + "," + logColor(c));
     Graphics g = getGraphics();
     g.setColor(c);
     g.drawLine(x, y, x, y);
   }
 
-  public void drawRect(int x, int y, int width, int height, Color c) {
-    if (stream != null) {
-      stream.println("[drawRect," + x + "," + y + "," + width + "," + height + "," + logColor(c)
-          + "]");
-    }
+  public final void drawRect(int x, int y, int width, int height, Color c) {
+    if (enabledLogging())
+      log("drawRect", x + "," + y + "," + width + "," + height + "," + logColor(c));
     Graphics g = getGraphics();
     g.setColor(c);
     g.drawRect(x, y, width, height);
   }
 
-  public void fillRect(int x, int y, int width, int height, Color c) {
-    if (stream != null) {
-      stream.println("[fillRect," + x + "," + y + "," + width + "," + height + "," + logColor(c)
-          + "]");
-    }
+  public final void fillRect(int x, int y, int width, int height, Color c) {
+    if (enabledLogging())
+      log("fillRect", x + "," + y + "," + width + "," + height + "," + logColor(c));
     Graphics g = getGraphics();
     g.setColor(c);
     g.fillRect(x, y, width, height);
   }
 
-  public ImageObserver getImageObserver() {
+  public final ImageObserver getImageObserver() {
     return imageObserver;
   }
 
-  public Image loadImage(String path) {
-    if (stream != null) {
-      stream.println("[loadImage," + path + "," + imageCount + "]");
-    }
+  public final Image loadImage(String path) {
+    if (enabledLogging()) log("loadImage", path + "," + imageCount);
     final Image image = panel.loadImage(path);
     mediaTracker.addImage(image, imageCount);
     image2Ids.put(image, imageCount++);
     return image;
   }
 
-  public void waitLoadImage() {
+  public final void waitLoadImage() {
     try {
       mediaTracker.waitForAll();
     } catch (final InterruptedException e) {}
   }
 
-  public void drawString(String str, int x, int y) {
-    if (stream != null) {
-      stream.println("[drawString," + str + "," + x + "," + y + "]");
-    }
+  public final void drawString(String str, int x, int y) {
+    if (enabledLogging()) log("drawString", str + "," + x + "," + y);
     drawString(str, x, y, Color.BLACK);
   }
 
-  public void drawString(String str, int x, int y, Color c) {
-    if (stream != null) {
-      stream.println("[drawString," + str + "," + x + "," + y + "," + logColor(c) + "]");
-    }
+  public final void drawString(String str, int x, int y, Color c) {
+    if (enabledLogging()) log("drawString", str + "," + x + "," + y + "," + logColor(c));
     Graphics g = getGraphics();
     g.setColor(c);
     g.drawString(str, x, y);
   }
 
-  public void drawString(String str, int x, int y, Font f) {
-    if (stream != null) {
-      stream.println("[drawString," + str + "," + x + "," + y + "]");
-    }
+  public final void drawString(String str, int x, int y, Font f) {
+    if (enabledLogging()) log("drawString", str + "," + x + "," + y);
     drawString(str, x, y, Color.BLACK, f);
   }
 
-  public void drawString(String str, int x, int y, Color c, Font f) {
-    if (stream != null) {
-      stream.println("[drawString," + str + "," + x + "," + y + "," + logColor(c) + "]");
-    }
+  public final void drawString(String str, int x, int y, Color c, Font f) {
+    if (enabledLogging()) log("drawString", str + "," + x + "," + y + "," + logColor(c));
     Graphics g = getGraphics();
     g.setColor(c);
     g.setFont(f);
     g.drawString(str, x, y);
   }
 
-  protected void forceRepaint() {
-    if (stream != null) {
-      stream.println("[forceRepaint]");
-    }
+  protected final void forceRepaint() {
+    if (enabledLogging()) log("forceRepaint");
     panel.forceRepaint();
     panel.tryResizeBufferImage();
   }
 
   protected abstract Graphics getGraphics();
 
-  public JGamePanel getPanel() {
+  public final JGamePanel getPanel() {
     return panel;
   }
 
-  public void startLogging(PrintStream stream) {
-    this.stream = stream;
-    stream.println("var log = [");
+  public final boolean enabledLogging() {
+    return stream != null;
   }
 
-  public PrintStream finishLogging() {
+  protected final void log(String name) {
     if (stream != null) {
-      stream.println("];");
+      stream.println("['" + name + "'],");
+    }
+  }
+
+  protected final void log(String name, String args) {
+    if (stream != null) {
+      stream.println("['" + name + "'," + args + "],");
+    }
+  }
+
+  protected final String logColor(Color c) {
+    return c.getAlpha() + "," + c.getRed() + "," + c.getGreen() + "," + c.getBlue();
+  }
+
+  public final void startLogging(PrintStream stream) {
+    this.stream = stream;
+    stream.println("setLogData({");
+    stream.println("logs: [");
+  }
+
+  public final PrintStream finishLogging() {
+    if (stream != null) {
+      stream.println("],");
+      stream.println("});");
     }
     PrintStream stream = this.stream;
     this.stream = null;
     return stream;
-  }
-
-  private String logColor(Color c) {
-    return c.getAlpha() + "," + c.getRed() + "," + c.getGreen() + "," + c.getBlue();
   }
 
   @Override

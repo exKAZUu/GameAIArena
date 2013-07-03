@@ -18,7 +18,8 @@ public class RawRenderer extends Renderer {
   }
 
   @Override
-  public void clear(Color c) {
+  public final void clear(Color c) {
+    if (enabledLogging()) log("clear", logColor(c));
     Dimension d = panel.getPreferredSize();
     Graphics g = getGraphics();
     g.setColor(c);
