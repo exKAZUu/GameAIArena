@@ -44,4 +44,9 @@ public class Manipulators {
       Manipulator<Arg, Result, ComputerPlayer> runner, Iterable<Result> results) {
     return new ReplayingMemoryManipulator<Arg, Result, ComputerPlayer>(runner, results);
   }
+
+  public static <Arg, Result extends Serializable, ComputerPlayer> ThreadManipulator<Arg, Result, ComputerPlayer> therad(
+      Manipulator<Arg, Result, ComputerPlayer> runner) {
+    return new ThreadManipulator<Arg, Result, ComputerPlayer>(runner);
+  }
 }

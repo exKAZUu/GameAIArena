@@ -43,7 +43,7 @@ public class LimittingTimeManipulator<Arg, Result extends Serializable, Controll
     // 時間制限を超えた時点の結果を保存する
     result = manipulator.runPostProcessing();
     if (thread.isAlive()) {
-      System.out.println("terminated the thread because time was exceeded");
+      System.out.println("Terminated the thread because time was exceeded.");
       thread.stop();
     }
   }
