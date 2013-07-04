@@ -55,4 +55,8 @@ public abstract class Manipulator<Arg, Result extends Serializable, ComputerPlay
   public Manipulator<Arg, Result, ComputerPlayer> replayingMemory(Iterable<Result> results) {
     return new ReplayingMemoryManipulator<Arg, Result, ComputerPlayer>(this, results);
   }
+
+  public ThreadManipulator<Arg, Result, ComputerPlayer> threading() {
+    return new ThreadManipulator<Arg, Result, ComputerPlayer>(this);
+  }
 }
