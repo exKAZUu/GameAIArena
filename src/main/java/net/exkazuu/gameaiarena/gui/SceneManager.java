@@ -50,6 +50,7 @@ public class SceneManager {
       do {
         scene = runOneStep(env, scene);
         if (scene == null) {
+          terminateOthers(env);
           return;
         }
 
@@ -76,6 +77,10 @@ public class SceneManager {
       }
     }
     scene.release();
+    terminateOthers(env);
+  }
+
+  private <Env extends Environment> void terminateOthers(final Env env) {
     if (window != null) {
       window.dispose();
     }
