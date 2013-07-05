@@ -57,7 +57,7 @@ public class GameGuiBuilder {
     if (_fps != null) {
       env.getSceneManager().setFps(_fps);
     }
-    env.getSceneManager().addWindowListenerForTerminating(window);
+    env.getSceneManager().setWindowForTerminating(window);
     return new GameGuiBuildResult<Env>(env, window, gamePanel);
   }
 

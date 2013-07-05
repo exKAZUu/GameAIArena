@@ -5,6 +5,8 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import net.exkazuu.gameaiarena.manipulator.ThreadManipulator;
+
 
 
 public class SceneManager {
@@ -13,6 +15,7 @@ public class SceneManager {
   private int maxSkip;
   private boolean ended;
   private long nextTime;
+  private Window window;
 
   public SceneManager() {
     this(60);
@@ -73,6 +76,10 @@ public class SceneManager {
       }
     }
     scene.release();
+    if (window != null) {
+      window.dispose();
+    }
+    ThreadManipulator.shutdownExecutorService();
   }
 
   public <Env extends Environment> void initialize(final Env env, final Scene<Env> firstScene) {
@@ -114,11 +121,13 @@ public class SceneManager {
   }
 
   /**
-   * Adds a window listener for terminating this manager in the specified window.
+   * Sets the specified window. The window will be disposed when terminating this manager. This
+   * manager will also be terminated when closing the window.
    * 
    * @param window the window to be added a window listener
    */
-  public SceneManager addWindowListenerForTerminating(Window window) {
+  public SceneManager setWindowForTerminating(Window window) {
+    this.window = window;
     window.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {

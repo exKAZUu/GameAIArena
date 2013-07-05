@@ -45,6 +45,6 @@ public class JGameWindow extends JFrame {
   }
 
   public void addWindowListenerForTerminating(SceneManager sceneManager) {
-    sceneManager.addWindowListenerForTerminating(this);
+    sceneManager.setWindowForTerminating(this);
   }
 }

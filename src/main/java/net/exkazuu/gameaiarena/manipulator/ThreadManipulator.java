@@ -11,6 +11,10 @@ public class ThreadManipulator<Arg, Result extends Serializable, Controller> {
   public ThreadManipulator(Manipulator<Arg, Result, Controller> manipulator) {
     this.manipulator = manipulator;
   }
+  
+  public static void shutdownExecutorService() {
+    executorService.shutdown();
+  }
 
   public Controller getComputerPlayer() {
     return manipulator.getComputerPlayer();
