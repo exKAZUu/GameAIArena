@@ -79,6 +79,12 @@ public class SceneManager {
     if (window != null) {
       window.dispose();
     }
+    if (env.getRenderer() != null) {
+      env.getRenderer().finishLogging();
+      for (Renderer renderer : env.getSubRenderers()) {
+        renderer.finishLogging();
+      }
+    }
     ThreadManipulator.shutdownExecutorService();
   }
 
