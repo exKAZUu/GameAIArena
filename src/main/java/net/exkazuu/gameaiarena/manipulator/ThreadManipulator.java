@@ -5,13 +5,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadManipulator<Arg, Result extends Serializable, Controller> {
-  protected final static ExecutorService executorService = Executors.newCachedThreadPool();
+  protected static ExecutorService executorService = Executors.newCachedThreadPool();
   private final Manipulator<Arg, Result, Controller> manipulator;
 
   public ThreadManipulator(Manipulator<Arg, Result, Controller> manipulator) {
     this.manipulator = manipulator;
+    if (executorService.isShutdown()) {
+      executorService = Executors.newCachedThreadPool();
+    }
   }
-  
+
   public static void shutdownExecutorService() {
     executorService.shutdown();
   }
