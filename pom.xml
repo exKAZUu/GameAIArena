@@ -9,7 +9,7 @@
 
   <groupId>jp.ac.waseda</groupId>
   <artifactId>GameAIArena</artifactId>
-  <version>1.6.5-SNAPSHOT</version>
+  <version>1.6.6-SNAPSHOT</version>
   <packaging>jar</packaging>
  
   <name>GameAIArena</name>
