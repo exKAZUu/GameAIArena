@@ -1,11 +1,11 @@
 package net.exkazuu.gameaiarena.player;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -13,16 +13,19 @@ public class ExternalComputerPlayer {
 
   private Process _process;
 
-  private BufferedReader _reader;
-  private BufferedReader _errorReader;
+  private final BufferedReader _reader;
+  private final BufferedReader _errorReader;
 
-  private PrintStream _writer;
-  private PrintStream _stdinLogStream;
-  private PrintStream _stdoutLogStream;
-  private PrintStream _errorLogStream;
+  private final PrintStream _writer;
+  private final List<PrintStream> _streamsForLoggingStdinOfExternalProgram;
+  private final List<PrintStream> _streamsForLoggingStdoutOfExternalProgram;
+  private final List<PrintStream> _streamsForLoggingErrorOfExternalProgram;
 
   public ExternalComputerPlayer(String[] command) throws IOException {
     ProcessBuilder pb = new ProcessBuilder(command);
+    _streamsForLoggingStdinOfExternalProgram = new ArrayList<PrintStream>();
+    _streamsForLoggingStdoutOfExternalProgram = new ArrayList<PrintStream>();
+    _streamsForLoggingErrorOfExternalProgram = new ArrayList<PrintStream>();
     try {
       _process = pb.start();
       _reader = new BufferedReader(new InputStreamReader(_process.getInputStream()));
@@ -38,40 +41,16 @@ public class ExternalComputerPlayer {
     }
   }
 
-  public void setStdinLogStream(PrintStream outStream) {
-    _stdinLogStream = outStream;
+  public void addStreamForLoggingStdinOfExternalProgram(PrintStream outStream) {
+    _streamsForLoggingStdinOfExternalProgram.add(outStream);
   }
 
-  public void setStdoutLogStream(PrintStream outStream) {
-    _stdoutLogStream = outStream;
+  public void addStreamForLoggingStdoutOfExternalProgram(PrintStream outStream) {
+    _streamsForLoggingStdoutOfExternalProgram.add(outStream);
   }
 
-  public void setErrorLogStream(PrintStream outStream) {
-    _errorLogStream = outStream;
-  }
-
-  public void setStdinLogStream(File file) throws FileNotFoundException {
-    _stdinLogStream = new PrintStream(file);
-  }
-
-  public void setStdoutLogStream(File file) throws FileNotFoundException {
-    _stdoutLogStream = new PrintStream(file);
-  }
-
-  public void setErrorLogStream(File file) throws FileNotFoundException {
-    _errorLogStream = new PrintStream(file);
-  }
-
-  public void setStdinLogStream(String filePath) throws FileNotFoundException {
-    _stdinLogStream = new PrintStream(filePath);
-  }
-
-  public void setStdoutLogStream(String filePath) throws FileNotFoundException {
-    _stdoutLogStream = new PrintStream(filePath);
-  }
-
-  public void setErrorLogStream(String filePath) throws FileNotFoundException {
-    _errorLogStream = new PrintStream(filePath);
+  public void addStreamForLoggingErrorOfExternalProgram(PrintStream outStream) {
+    _streamsForLoggingErrorOfExternalProgram.add(outStream);
   }
 
   public void release() {
@@ -90,14 +69,14 @@ public class ExternalComputerPlayer {
       if (_errorReader != null) {
         _errorReader.close();
       }
-      if (_stdinLogStream != null) {
-        _stdinLogStream.close();
+      for (PrintStream stream : _streamsForLoggingStdinOfExternalProgram) {
+        stream.close();
       }
-      if (_stdoutLogStream != null) {
-        _stdoutLogStream.close();
+      for (PrintStream stream : _streamsForLoggingStdoutOfExternalProgram) {
+        stream.close();
       }
-      if (_errorLogStream != null) {
-        _errorLogStream.close();
+      for (PrintStream stream : _streamsForLoggingErrorOfExternalProgram) {
+        stream.close();
       }
     } catch (IOException e) {
       System.err.println("Fail to close streams.");
@@ -106,8 +85,8 @@ public class ExternalComputerPlayer {
   }
 
   public void writeLine(String str) {
-    if (_stdinLogStream != null) {
-      _stdinLogStream.println(str);
+    for (PrintStream stream : _streamsForLoggingStdinOfExternalProgram) {
+      stream.println(str);
     }
     _writer.println(str);
     _writer.flush();
@@ -121,8 +100,8 @@ public class ExternalComputerPlayer {
       System.err.println("Fail to read a line from the standar output.");
     }
     writeError();
-    if (_stdoutLogStream != null) {
-      _stdoutLogStream.println(line);
+    for (PrintStream stream : _streamsForLoggingStdoutOfExternalProgram) {
+      stream.println(line);
     }
     return line;
   }
@@ -134,8 +113,8 @@ public class ExternalComputerPlayer {
       }
       String line;
       while (_errorReader.ready() && (line = _errorReader.readLine()) != null) {
-        if (_errorLogStream != null) {
-          _errorLogStream.println(line);
+        for (PrintStream stream : _streamsForLoggingErrorOfExternalProgram) {
+          stream.println(line);
         }
       }
     } catch (IOException e) {
