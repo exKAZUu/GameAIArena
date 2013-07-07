@@ -87,6 +87,7 @@ public class ExternalComputerPlayer {
   public void writeLine(String str) {
     for (PrintStream stream : _streamsForLoggingStdinOfExternalProgram) {
       stream.println(str);
+      stream.flush();
     }
     _writer.println(str);
     _writer.flush();
@@ -102,6 +103,7 @@ public class ExternalComputerPlayer {
     writeError();
     for (PrintStream stream : _streamsForLoggingStdoutOfExternalProgram) {
       stream.println(line);
+      stream.flush();
     }
     return line;
   }
@@ -115,6 +117,7 @@ public class ExternalComputerPlayer {
       while (_errorReader.ready() && (line = _errorReader.readLine()) != null) {
         for (PrintStream stream : _streamsForLoggingErrorOfExternalProgram) {
           stream.println(line);
+          stream.flush();
         }
       }
     } catch (IOException e) {
