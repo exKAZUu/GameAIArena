@@ -17,15 +17,15 @@ public class ExternalComputerPlayer {
   private final BufferedReader _errorReader;
 
   private final PrintStream _writer;
-  private final List<PrintStream> _streamsForLoggingStdinOfExternalProgram;
-  private final List<PrintStream> _streamsForLoggingStdoutOfExternalProgram;
-  private final List<PrintStream> _streamsForLoggingErrorOfExternalProgram;
+  private final List<PrintStream> _inputLogStreams;
+  private final List<PrintStream> _outputLogStreams;
+  private final List<PrintStream> _errorLogStreams;
 
   public ExternalComputerPlayer(String[] command) throws IOException {
     ProcessBuilder pb = new ProcessBuilder(command);
-    _streamsForLoggingStdinOfExternalProgram = new ArrayList<PrintStream>();
-    _streamsForLoggingStdoutOfExternalProgram = new ArrayList<PrintStream>();
-    _streamsForLoggingErrorOfExternalProgram = new ArrayList<PrintStream>();
+    _inputLogStreams = new ArrayList<PrintStream>();
+    _outputLogStreams = new ArrayList<PrintStream>();
+    _errorLogStreams = new ArrayList<PrintStream>();
     try {
       _process = pb.start();
       _reader = new BufferedReader(new InputStreamReader(_process.getInputStream()));
@@ -41,23 +41,23 @@ public class ExternalComputerPlayer {
     }
   }
 
-  public void addStreamForLoggingStdinOfExternalProgram(PrintStream outStream) {
-    _streamsForLoggingStdinOfExternalProgram.add(outStream);
+  public void addInputLogStream(PrintStream outStream) {
+    _inputLogStreams.add(outStream);
   }
 
-  public void addStreamForLoggingStdoutOfExternalProgram(PrintStream outStream) {
-    _streamsForLoggingStdoutOfExternalProgram.add(outStream);
+  public void addOuputLogStream(PrintStream outStream) {
+    _outputLogStreams.add(outStream);
   }
 
-  public void addStreamForLoggingErrorOfExternalProgram(PrintStream outStream) {
-    _streamsForLoggingErrorOfExternalProgram.add(outStream);
+  public void addErrorLogStream(PrintStream outStream) {
+    _errorLogStreams.add(outStream);
   }
 
   public void release() {
     if (_process == null) {
       return;
     }
-    writeError();
+    writeStderr();
     _process.destroy();
     try {
       if (_reader != null) {
@@ -69,13 +69,13 @@ public class ExternalComputerPlayer {
       if (_errorReader != null) {
         _errorReader.close();
       }
-      for (PrintStream stream : _streamsForLoggingStdinOfExternalProgram) {
+      for (PrintStream stream : _inputLogStreams) {
         stream.close();
       }
-      for (PrintStream stream : _streamsForLoggingStdoutOfExternalProgram) {
+      for (PrintStream stream : _outputLogStreams) {
         stream.close();
       }
-      for (PrintStream stream : _streamsForLoggingErrorOfExternalProgram) {
+      for (PrintStream stream : _errorLogStreams) {
         stream.close();
       }
     } catch (IOException e) {
@@ -85,7 +85,7 @@ public class ExternalComputerPlayer {
   }
 
   public void writeLine(String str) {
-    for (PrintStream stream : _streamsForLoggingStdinOfExternalProgram) {
+    for (PrintStream stream : _inputLogStreams) {
       stream.println(str);
       stream.flush();
     }
@@ -100,22 +100,22 @@ public class ExternalComputerPlayer {
     } catch (IOException e) {
       System.err.println("Fail to read a line from the standar output.");
     }
-    writeError();
-    for (PrintStream stream : _streamsForLoggingStdoutOfExternalProgram) {
+    writeStderr();
+    for (PrintStream stream : _outputLogStreams) {
       stream.println(line);
       stream.flush();
     }
     return line;
   }
 
-  private void writeError() {
+  private void writeStderr() {
     try {
       if (!_errorReader.ready()) {
         return;
       }
       String line;
       while (_errorReader.ready() && (line = _errorReader.readLine()) != null) {
-        for (PrintStream stream : _streamsForLoggingErrorOfExternalProgram) {
+        for (PrintStream stream : _errorLogStreams) {
           stream.println(line);
           stream.flush();
         }
