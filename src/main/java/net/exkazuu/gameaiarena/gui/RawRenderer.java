@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-
 public class RawRenderer extends Renderer {
 
   RawRenderer(JGamePanel panel) {
@@ -19,7 +18,7 @@ public class RawRenderer extends Renderer {
 
   @Override
   public final void clear(Color c) {
-    if (enabledLogging()) log("clear", logColor(c));
+    this.rendered = true;
     Dimension d = panel.getPreferredSize();
     Graphics g = getGraphics();
     g.setColor(c);

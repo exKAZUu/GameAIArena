@@ -61,6 +61,10 @@ public abstract class Environment extends TypeSafeCloneable<Environment> {
     return env;
   };
 
+  public int getFrameCount() {
+    return _sceneManager.getFrameCount();
+  }
+
   public MappedInputer getInputer() {
     return _inputer;
   }

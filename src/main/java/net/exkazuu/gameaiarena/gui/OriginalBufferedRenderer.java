@@ -21,6 +21,7 @@ public abstract class OriginalBufferedRenderer<TImage extends Image> extends Ren
   }
 
   protected void updateImage(TImage image) {
+    this.rendered = true;
     this.image = image;
     this.graphics = image.getGraphics();
     this.graphics.setColor(Color.WHITE);
@@ -28,7 +29,7 @@ public abstract class OriginalBufferedRenderer<TImage extends Image> extends Ren
 
   @Override
   public final void clear(Color c) {
-    if (enabledLogging()) log("clear", logColor(c));
+    this.rendered = true;
     graphics.setColor(c);
     graphics.fillRect(0, 0, image.getWidth(imageObserver), image.getHeight(imageObserver));
   }

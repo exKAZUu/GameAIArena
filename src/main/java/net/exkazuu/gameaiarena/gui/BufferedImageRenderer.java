@@ -19,7 +19,7 @@ public class BufferedImageRenderer extends OriginalBufferedRenderer<BufferedImag
 
   @Override
   public void drawPixel(int x, int y, Color c) {
-    if (enabledLogging()) log("drawPixel", x + "," + y + "," + logColor(c));
+    this.rendered = true;
     int[] argb = colors.get(c);
     if (argb == null) {
       argb = new int[] {c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()};
@@ -30,6 +30,7 @@ public class BufferedImageRenderer extends OriginalBufferedRenderer<BufferedImag
 
   @Override
   protected void updateImage(BufferedImage image) {
+    this.rendered = true;
     super.updateImage(image);
     this.raster = image.getRaster();
   }

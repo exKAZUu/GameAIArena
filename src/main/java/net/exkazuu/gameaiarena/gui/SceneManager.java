@@ -1,13 +1,10 @@
 package net.exkazuu.gameaiarena.gui;
 
-
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import net.exkazuu.gameaiarena.manipulator.ThreadManipulator;
-
-
 
 public class SceneManager {
   private double fps;
@@ -16,6 +13,7 @@ public class SceneManager {
   private boolean ended;
   private long nextTime;
   private Window window;
+  private int frameCount;
 
   public SceneManager() {
     this(60);
@@ -27,18 +25,6 @@ public class SceneManager {
 
   public SceneManager(double fps, int maxSkip) {
     this.setFps(fps);
-  }
-
-  public double getFps() {
-    return this.fps;
-  }
-
-  public double getMaxSkip() {
-    return this.maxSkip;
-  }
-
-  public double getMspf() {
-    return this.mspf;
   }
 
   public <Env extends Environment> void run(final Env env, final Scene<Env> firstScene) {
@@ -84,12 +70,6 @@ public class SceneManager {
     if (window != null) {
       window.dispose();
     }
-    if (env.getRenderer() != null) {
-      env.getRenderer().finishLogging();
-      for (Renderer renderer : env.getSubRenderers()) {
-        renderer.finishLogging();
-      }
-    }
     ThreadManipulator.shutdownExecutorService();
   }
 
@@ -108,6 +88,7 @@ public class SceneManager {
     }
     // シーンの処理
     final Scene<Env> nextScene = scene.run();
+    frameCount++;
     if (nextScene != scene) {
       scene.release();
       if (nextScene == null) {
@@ -155,5 +136,21 @@ public class SceneManager {
 
   public void terminate() {
     ended = true;
+  }
+
+  public double getFps() {
+    return this.fps;
+  }
+
+  public double getMaxSkip() {
+    return this.maxSkip;
+  }
+
+  public double getMspf() {
+    return this.mspf;
+  }
+
+  public int getFrameCount() {
+    return frameCount;
   }
 }
