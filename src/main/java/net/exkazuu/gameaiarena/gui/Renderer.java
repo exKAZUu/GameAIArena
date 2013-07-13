@@ -122,8 +122,6 @@ public abstract class Renderer {
     if (this.rendered == true) {
       this.rendered = false;
       panel.forceRepaint();
-    } else {
-      System.out.println("skip repaint");
     }
     panel.tryResizeBufferImage();
   }
