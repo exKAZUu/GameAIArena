@@ -70,7 +70,11 @@ public class SceneManager {
     if (window != null) {
       window.dispose();
     }
-    ThreadManipulator.shutdownExecutorService();
+    try {
+      ThreadManipulator.shutdownExecutorService();
+    } catch (SecurityException e) {
+      // Do nothing. This catch deals with Java Applet.
+    }
   }
 
   public <Env extends Environment> void initialize(final Env env, final Scene<Env> firstScene) {

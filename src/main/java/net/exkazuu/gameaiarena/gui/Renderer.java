@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
-import java.util.HashMap;
 
 public abstract class Renderer {
   protected final JGamePanel panel;
@@ -14,13 +13,11 @@ public abstract class Renderer {
   protected final MediaTracker mediaTracker;
   protected int imageCount;
   protected boolean rendered;
-  private HashMap<Image, Integer> image2Ids;
 
   public Renderer(JGamePanel panel) {
     this.panel = panel;
     this.imageObserver = panel;
     this.mediaTracker = new MediaTracker(panel);
-    this.image2Ids = new HashMap<Image, Integer>();
     this.rendered = false;
   }
 
@@ -28,7 +25,6 @@ public abstract class Renderer {
 
   public final Image createImage(int width, int height) {
     Image image = panel.createEmptyImage(width, height);
-    image2Ids.put(image, imageCount++);
     return image;
   }
 
@@ -38,7 +34,6 @@ public abstract class Renderer {
     g.setColor(c);
     g.fillRect(0, 0, width, height);
     g.dispose();
-    image2Ids.put(image, imageCount++);
     return image;
   }
 
@@ -82,8 +77,7 @@ public abstract class Renderer {
 
   public final Image loadImage(String path) {
     final Image image = panel.loadImage(path);
-    mediaTracker.addImage(image, imageCount);
-    image2Ids.put(image, imageCount++);
+    mediaTracker.addImage(image, imageCount++);
     return image;
   }
 
