@@ -1,6 +1,7 @@
 package net.exkazuu.gameaiarena.player;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -22,7 +23,14 @@ public class ExternalComputerPlayer {
   private final List<PrintStream> _errorLogStreams;
 
   public ExternalComputerPlayer(String[] command) throws IOException {
+    this(command, null);
+  }
+
+  public ExternalComputerPlayer(String[] command, String workDir) throws IOException {
     ProcessBuilder pb = new ProcessBuilder(command);
+    if (workDir != null) {
+      pb.directory(new File(workDir));
+    }
     _inputLogStreams = new ArrayList<PrintStream>();
     _outputLogStreams = new ArrayList<PrintStream>();
     _errorLogStreams = new ArrayList<PrintStream>();
