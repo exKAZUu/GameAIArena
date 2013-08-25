@@ -2,18 +2,13 @@ package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.Serializable;
 
-public class IgnoringExceptionManipulator<Arg, Result extends Serializable, Controller>
-    extends Manipulator<Arg, Result, Controller> {
+public class IgnoringExceptionManipulator<Arg, Result extends Serializable>
+    extends Manipulator<Arg, Result> {
 
-  private final Manipulator<Arg, Result, Controller> manipulator;
+  private final Manipulator<Arg, Result> manipulator;
 
-  public IgnoringExceptionManipulator(Manipulator<Arg, Result, Controller> manipulator) {
+  public IgnoringExceptionManipulator(Manipulator<Arg, Result> manipulator) {
     this.manipulator = manipulator;
-  }
-
-  @Override
-  public Controller getComputerPlayer() {
-    return manipulator.getComputerPlayer();
   }
 
   @Override

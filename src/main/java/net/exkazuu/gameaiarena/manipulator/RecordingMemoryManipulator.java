@@ -3,21 +3,16 @@ package net.exkazuu.gameaiarena.manipulator;
 import java.io.Serializable;
 import java.util.List;
 
-public class RecordingMemoryManipulator<Arg, Result extends Serializable, Controller>
-    extends Manipulator<Arg, Result, Controller> {
+public class RecordingMemoryManipulator<Arg, Result extends Serializable>
+    extends Manipulator<Arg, Result> {
 
-  private final Manipulator<Arg, Result, Controller> manipulator;
+  private final Manipulator<Arg, Result> manipulator;
   private final List<Result> oos;
 
-  public RecordingMemoryManipulator(Manipulator<Arg, Result, Controller> manipulator,
+  public RecordingMemoryManipulator(Manipulator<Arg, Result> manipulator,
       List<Result> oos) {
     this.manipulator = manipulator;
     this.oos = oos;
-  }
-
-  @Override
-  public Controller getComputerPlayer() {
-    return manipulator.getComputerPlayer();
   }
 
   @Override

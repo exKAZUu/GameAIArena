@@ -4,21 +4,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public class ReplayingStreamManipulator<Arg, Result extends Serializable, Controller>
-    extends Manipulator<Arg, Result, Controller> {
+public class ReplayingStreamManipulator<Arg, Result extends Serializable>
+    extends Manipulator<Arg, Result> {
 
-  private final Manipulator<Arg, Result, Controller> manipulator;
+  private final Manipulator<Arg, Result> manipulator;
   private final ObjectInputStream ois;
 
-  public ReplayingStreamManipulator(Manipulator<Arg, Result, Controller> manipulator,
+  public ReplayingStreamManipulator(Manipulator<Arg, Result> manipulator,
       ObjectInputStream ois) {
     this.manipulator = manipulator;
     this.ois = ois;
-  }
-
-  @Override
-  public Controller getComputerPlayer() {
-    return manipulator.getComputerPlayer();
   }
 
   @Override

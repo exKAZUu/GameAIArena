@@ -2,24 +2,21 @@ package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.Serializable;
 
-public class LimittingSumTimeManipulator<Arg, Result extends Serializable, Controller>
-    extends Manipulator<Arg, Result, Controller> {
+import net.exkazuu.gameaiarena.player.ExternalComputerPlayer;
 
-  private final Manipulator<Arg, Result, Controller> manipulator;
+public class LimittingSumTimeManipulator<Arg, Result extends Serializable>
+    extends Manipulator<Arg, Result> {
+
+  private final Manipulator<Arg, Result> manipulator;
   private final int availableMillisecond;
   private int restExceededMillisecond;
   private Result result;
 
-  public LimittingSumTimeManipulator(Manipulator<Arg, Result, Controller> manipulator,
+  public LimittingSumTimeManipulator(Manipulator<Arg, Result> manipulator,
       int availableMillisecond, int maxExceededMillisecond) {
     this.manipulator = manipulator;
     this.availableMillisecond = availableMillisecond;
     this.restExceededMillisecond = maxExceededMillisecond;
-  }
-
-  @Override
-  public Controller getComputerPlayer() {
-    return manipulator.getComputerPlayer();
   }
 
   @Override
@@ -35,7 +32,7 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable, Contr
       return;
     }
 
-    final Thread thread = new Thread(new Runnable() {
+    Thread thread = new Thread(new Runnable() {
       @Override
       public void run() {
         manipulator.runProcessing();
@@ -45,7 +42,7 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable, Contr
     thread.start();
     try {
       thread.join(availableMillisecond + restExceededMillisecond);
-    } catch (final InterruptedException e) {
+    } catch (InterruptedException e) {
       e.printStackTrace();
     }
 
@@ -62,6 +59,10 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable, Contr
     if (thread.isAlive()) {
       System.out.println("Terminated the thread because time was exceeded.");
       restExceededMillisecond = 0;
+      ExternalComputerPlayer player = manipulator.getExternalComputerPlayer();
+      if (player != null) {
+        player.release();
+      }
       thread.stop();
     }
   }

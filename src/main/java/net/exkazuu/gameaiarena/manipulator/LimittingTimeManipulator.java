@@ -2,22 +2,19 @@ package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.Serializable;
 
-public class LimittingTimeManipulator<Arg, Result extends Serializable, Controller>
-    extends Manipulator<Arg, Result, Controller> {
+import net.exkazuu.gameaiarena.player.ExternalComputerPlayer;
 
-  private final Manipulator<Arg, Result, Controller> manipulator;
+public class LimittingTimeManipulator<Arg, Result extends Serializable>
+    extends Manipulator<Arg, Result> {
+
+  private final Manipulator<Arg, Result> manipulator;
   private final int maxMillisecond;
   private Result result;
 
-  public LimittingTimeManipulator(Manipulator<Arg, Result, Controller> manipulator,
+  public LimittingTimeManipulator(Manipulator<Arg, Result> manipulator,
       int maxMillisecond) {
     this.manipulator = manipulator;
     this.maxMillisecond = maxMillisecond;
-  }
-
-  @Override
-  public Controller getComputerPlayer() {
-    return manipulator.getComputerPlayer();
   }
 
   @Override
@@ -44,6 +41,10 @@ public class LimittingTimeManipulator<Arg, Result extends Serializable, Controll
     result = manipulator.runPostProcessing();
     if (thread.isAlive()) {
       System.out.println("Terminated the thread because time was exceeded.");
+      ExternalComputerPlayer player = manipulator.getExternalComputerPlayer();
+      if (player != null) {
+        player.release();
+      }
       thread.stop();
     }
   }
