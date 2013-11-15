@@ -11,6 +11,9 @@ Kazunori SAKAMOTO (exkazuu@gmail.com, exkazuu@nii.ac.jp)
       <version>1.7.2</version>
     </dependency>
 
+## Javadoc
+```GameAIArena/doc```
+
 ## License
 Apache License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0
