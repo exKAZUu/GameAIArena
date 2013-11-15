@@ -17,6 +17,10 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 ## How to Setup Development Environment
 
+### Clone GameAIArena including Sample Game Project
+1. ```git clone https://github.com/exKAZUu/GameAIArena.git```
+1. Please copy the ```GameAIArena/SampleGame``` direcotry elsewhere if you don't want to modify my repo
+
 ### Prepare Eclipse Environment with Maven
 1. Install Eclipse
   * Eclipse IDE for Java Developers (*not Standard*) Kepler (4.3)  
