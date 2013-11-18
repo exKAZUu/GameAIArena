@@ -15,7 +15,7 @@ Kazunori SAKAMOTO (exkazuu@gmail.com, exkazuu@nii.ac.jp)
 
 ## Javadoc
 
-```GameAIArena/doc```
+``` GameAIArena/doc ```
 
 ## License
 
