@@ -38,7 +38,8 @@ public class StartScene extends Scene<SampleEnvironment> {
     SampleEnvironment env = getEnvironment();
     Renderer renderer = env.getRenderer();
     Image img = renderer.createImage(100, 100, Color.BLUE);
-    renderer.clear(Color.BLACK);
+    renderer.clear(Color.YELLOW);
     renderer.drawImage(img, 10, 20);
+    renderer.drawString("Push Enter Key", 100, 200);
   }
 }
