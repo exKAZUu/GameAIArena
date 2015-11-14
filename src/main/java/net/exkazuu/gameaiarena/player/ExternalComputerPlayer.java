@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 public class ExternalComputerPlayer {
 
   private Process _process;
+  private StringBuilder _errorLog;
 
   private final BufferedReader _reader;
   private final BufferedReader _errorReader;
@@ -34,6 +35,7 @@ public class ExternalComputerPlayer {
     _inputLogStreams = new ArrayList<PrintStream>();
     _outputLogStreams = new ArrayList<PrintStream>();
     _errorLogStreams = new ArrayList<PrintStream>();
+    _errorLog = new StringBuilder();
     try {
       _process = pb.start();
       _reader = new BufferedReader(new InputStreamReader(_process.getInputStream()));
@@ -116,6 +118,10 @@ public class ExternalComputerPlayer {
     return line;
   }
 
+  public String getErrorLog() {
+    return _errorLog.toString();
+  }
+
   private void writeStderr() {
     try {
       if (!_errorReader.ready()) {
@@ -127,6 +133,7 @@ public class ExternalComputerPlayer {
           stream.println(line);
           stream.flush();
         }
+        _errorLog.append(line);
       }
     } catch (IOException e) {
       System.err.println("Fail to read the error stream.");
