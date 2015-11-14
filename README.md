@@ -7,11 +7,31 @@ Kazunori SAKAMOTO (exkazuu@gmail.com, exkazuu@nii.ac.jp)
 
 ## Installation
 
+```
     <dependency>
       <groupId>jp.ac.waseda.cs.washi</groupId>
       <artifactId>GameAIArena</artifactId>
       <version>1.7.2</version>
     </dependency>
+```
+
+or
+
+
+```
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+	...
+	<dependency>
+	    <groupId>com.github.exKAZUu</groupId>
+	    <artifactId>GameAIArena</artifactId>
+	    <version>v1.7.3</version>
+	</dependency>
+```
+
+
 
 ## Javadoc
 
@@ -43,21 +63,3 @@ http://www.eclipse.org/downloads/
 1. Select Projects
 1. Finish
 1. Right click the imported project > Maven > Update Project Configuration > OK
-
-## How to Use GameAIArena in Your Maven Project
-
-```
-	<repository>
-	    <id>jitpack.io</id>
-	    <url>https://jitpack.io</url>
-	</repository>
-```
-
-```
-	<dependency>
-	    <groupId>com.github.exKAZUu</groupId>
-	    <artifactId>GameAIArena</artifactId>
-	    <version>v1.7.3</version>
-	</dependency>
-```
-
