@@ -27,7 +27,7 @@ or
 	<dependency>
 	    <groupId>com.github.exKAZUu</groupId>
 	    <artifactId>GameAIArena</artifactId>
-	    <version>v1.7.3</version>
+	    <version>v1.7.4</version>
 	</dependency>
 ```
 
