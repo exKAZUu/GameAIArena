@@ -52,4 +52,12 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
     }
     return act;
   }
+
+  public final boolean paused() {
+    return paused;
+  }
+
+  public final void setPaused(boolean paused) {
+    this.paused = paused;
+  }
 }
