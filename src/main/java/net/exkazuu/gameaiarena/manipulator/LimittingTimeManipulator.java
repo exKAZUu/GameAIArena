@@ -2,8 +2,6 @@ package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.Serializable;
 
-import net.exkazuu.gameaiarena.player.ExternalComputerPlayer;
-
 public class LimittingTimeManipulator<Arg, Result extends Serializable>
     extends DefaultManipulator<Arg, Result> {
 
@@ -23,6 +21,7 @@ public class LimittingTimeManipulator<Arg, Result extends Serializable>
     manipulator.sendDataToAI(input);
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   protected void receiveDataFromAI() {
     if (killed) {
@@ -42,8 +41,8 @@ public class LimittingTimeManipulator<Arg, Result extends Serializable>
     }
     // 時間制限を超えた時点の結果を保存する
     if (thread.isAlive()) {
-      System.out.println("Terminated the thread because time was exceeded.");
-      thread.interrupt();
+      System.err.println("Terminated the thread because time was exceeded.");
+      thread.stop();
       release();
       killed = true;
     }

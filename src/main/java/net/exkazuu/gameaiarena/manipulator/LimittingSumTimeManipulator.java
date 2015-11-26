@@ -2,8 +2,6 @@ package net.exkazuu.gameaiarena.manipulator;
 
 import java.io.Serializable;
 
-import net.exkazuu.gameaiarena.player.ExternalComputerPlayer;
-
 public class LimittingSumTimeManipulator<Arg, Result extends Serializable>
     extends DefaultManipulator<Arg, Result> {
 
@@ -25,6 +23,7 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable>
     manipulator.sendDataToAI(input);
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   protected void receiveDataFromAI() {
     if (restExceededMillisecond <= 0) {
@@ -48,15 +47,15 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable>
     long consumedTime = System.currentTimeMillis() - currentTimeMillis;
     if (consumedTime > availableMillisecond) {
       restExceededMillisecond -= consumedTime - availableMillisecond;
-      System.out.println("Time was exceeded.");
-      System.out.println("    Consumed millseconds in this turn: " + consumedTime);
-      System.out.println("    Available millseconds in this turn: " + availableMillisecond);
-      System.out.println("    All remaining available millseconds: " + restExceededMillisecond);
+      System.err.println("Time was exceeded.");
+      System.err.println("    Consumed millseconds in this turn: " + consumedTime);
+      System.err.println("    Available millseconds in this turn: " + availableMillisecond);
+      System.err.println("    All remaining available millseconds: " + restExceededMillisecond);
     }
     // 時間制限を超えた時点の結果を保存する
     if (restExceededMillisecond <= 0 || thread.isAlive()) {
-      System.out.println("Terminated the thread because time was exceeded.");
-      thread.interrupt();
+      System.err.println("Terminated the thread because time was exceeded.");
+      thread.stop();
       release();
       restExceededMillisecond = 0;
     }
