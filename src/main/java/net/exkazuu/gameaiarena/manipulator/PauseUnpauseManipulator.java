@@ -10,6 +10,7 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
 
   private final String[] pauseCommand;
   private final String[] unpauseCommand;
+  private boolean paused;
 
   public PauseUnpauseManipulator(Manipulator<Arg, Result> manipulator, String[] pauseCommand,
       String[] unpauseCommand) {
@@ -21,7 +22,7 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   @Override
   protected void runPreProcessing(Arg input) {
     // for safety, unpause before runPreProcessing
-    if (!released()) {
+    if (!released() && paused) {
       try {
         new ProcessBuilder(unpauseCommand).start().waitFor();
       } catch (IOException e) {
@@ -41,6 +42,7 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
     if (!released()) {
       try {
         new ProcessBuilder(pauseCommand).start().waitFor();
+        paused = true;
       } catch (IOException e) {
         System.err.println("Fail to lauch the specified command for pausing an AI program");
         System.err.println("    Command with args: " + StringUtils.join(pauseCommand, " "));
