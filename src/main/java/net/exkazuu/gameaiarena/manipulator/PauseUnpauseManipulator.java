@@ -22,6 +22,19 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   @Override
   protected void runPreProcessing(Arg input) {
     // for safety, unpause before runPreProcessing
+    pause();
+    manipulator.runPreProcessing(input);
+  }
+
+  @Override
+  protected Result runPostProcessing() {
+    Result act = manipulator.runPostProcessing();
+    // for safety, pause after runPreProcessing
+    unpause();
+    return act;
+  }
+
+  public final void pause() {
     if (!released() && paused) {
       try {
         new ProcessBuilder(unpauseCommand).start().waitFor();
@@ -32,13 +45,9 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
         e.printStackTrace();
       }
     }
-    manipulator.runPreProcessing(input);
   }
 
-  @Override
-  protected Result runPostProcessing() {
-    Result act = manipulator.runPostProcessing();
-    // for safety, pause after runPreProcessing
+  public final void unpause() {
     if (!released()) {
       try {
         new ProcessBuilder(pauseCommand).start().waitFor();
@@ -50,7 +59,6 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
         e.printStackTrace();
       }
     }
-    return act;
   }
 
   public final boolean paused() {
