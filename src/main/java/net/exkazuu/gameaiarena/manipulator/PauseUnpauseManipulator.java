@@ -21,13 +21,15 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   @Override
   protected void runPreProcessing(Arg input) {
     // for safety, unpause before runPreProcessing
-    try {
-      new ProcessBuilder(unpauseCommand).start().waitFor();
-    } catch (IOException e) {
-      System.err.println("Fail to lauch the specified command for unpausing an AI program");
-      System.err.println("    Command with args: " + StringUtils.join(unpauseCommand, " "));
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    if (!released()) {
+      try {
+        new ProcessBuilder(unpauseCommand).start().waitFor();
+      } catch (IOException e) {
+        System.err.println("Fail to lauch the specified command for unpausing an AI program");
+        System.err.println("    Command with args: " + StringUtils.join(unpauseCommand, " "));
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
     manipulator.runPreProcessing(input);
   }
@@ -36,13 +38,15 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   protected Result runPostProcessing() {
     Result act = manipulator.runPostProcessing();
     // for safety, pause after runPreProcessing
-    try {
-      new ProcessBuilder(pauseCommand).start().waitFor();
-    } catch (IOException e) {
-      System.err.println("Fail to lauch the specified command for pausing an AI program");
-      System.err.println("    Command with args: " + StringUtils.join(pauseCommand, " "));
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    if (!released()) {
+      try {
+        new ProcessBuilder(pauseCommand).start().waitFor();
+      } catch (IOException e) {
+        System.err.println("Fail to lauch the specified command for pausing an AI program");
+        System.err.println("    Command with args: " + StringUtils.join(pauseCommand, " "));
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
     return act;
   }

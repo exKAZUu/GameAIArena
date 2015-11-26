@@ -16,17 +16,6 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
     return runPostProcessing();
   }
 
-  public ExternalComputerPlayer getExternalComputerPlayer() {
-    return null;
-  }
-
-  public void release() {
-    ExternalComputerPlayer player = getExternalComputerPlayer();
-    if (player != null) {
-      player.release();
-    }
-  }
-
   protected abstract void runPreProcessing(Arg input);
 
   protected abstract void sendDataToAI(Arg input);
@@ -34,6 +23,16 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
   protected abstract void receiveDataFromAI();
 
   protected abstract Result runPostProcessing();
+
+  public abstract boolean released();
+
+  protected abstract void beforeRelease();
+
+  protected abstract void afterRelease();
+
+  public abstract void release();
+
+  public abstract ExternalComputerPlayer getExternalComputerPlayer();
 
   public Manipulator<Arg, Result> ignoringException() {
     return new IgnoringExceptionManipulator<Arg, Result>(this);
