@@ -11,7 +11,8 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
 
   public final Result run(Arg input) {
     runPreProcessing(input);
-    runProcessing();
+    sendDataToAI(input);
+    receiveDataFromAI();
     return runPostProcessing();
   }
 
@@ -19,9 +20,18 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
     return null;
   }
 
+  public void release() {
+    ExternalComputerPlayer player = getExternalComputerPlayer();
+    if (player != null) {
+      player.release();
+    }
+  }
+
   protected abstract void runPreProcessing(Arg input);
 
-  protected abstract void runProcessing();
+  protected abstract void sendDataToAI(Arg input);
+
+  protected abstract void receiveDataFromAI();
 
   protected abstract Result runPostProcessing();
 

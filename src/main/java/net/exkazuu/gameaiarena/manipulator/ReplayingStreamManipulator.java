@@ -5,26 +5,20 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 public class ReplayingStreamManipulator<Arg, Result extends Serializable>
-    extends Manipulator<Arg, Result> {
+    extends DefaultManipulator<Arg, Result> {
 
-  private final Manipulator<Arg, Result> manipulator;
   private final ObjectInputStream ois;
 
-  public ReplayingStreamManipulator(Manipulator<Arg, Result> manipulator,
-      ObjectInputStream ois) {
-    this.manipulator = manipulator;
+  public ReplayingStreamManipulator(Manipulator<Arg, Result> manipulator, ObjectInputStream ois) {
+    super(manipulator);
     this.ois = ois;
   }
 
   @Override
-  public void runPreProcessing(Arg input) {
-    manipulator.runPreProcessing(input);
-  }
+  protected void sendDataToAI(Arg input) {}
 
   @Override
-  public void runProcessing() {
-    manipulator.runProcessing();
-  }
+  protected void receiveDataFromAI() {}
 
   @SuppressWarnings("unchecked")
   @Override
@@ -37,10 +31,5 @@ public class ReplayingStreamManipulator<Arg, Result extends Serializable>
       e.printStackTrace();
     }
     return null;
-  }
-
-  @Override
-  public String toString() {
-    return manipulator.toString();
   }
 }

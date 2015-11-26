@@ -25,7 +25,8 @@ public class ThreadManipulator<Arg, Result extends Serializable> {
       @Override
       public void run() {
         manipulator.runPreProcessing(input);
-        manipulator.runProcessing();
+        manipulator.sendDataToAI(input);
+        manipulator.receiveDataFromAI();
         result.setResult(manipulator.runPostProcessing());
       }
     });

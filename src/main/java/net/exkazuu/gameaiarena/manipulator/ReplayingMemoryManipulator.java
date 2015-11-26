@@ -4,34 +4,23 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 public class ReplayingMemoryManipulator<Arg, Result extends Serializable>
-    extends Manipulator<Arg, Result> {
-
-  private final Manipulator<Arg, Result> manipulator;
+    extends DefaultManipulator<Arg, Result> {
   private final Iterator<Result> resultIterator;
 
   public ReplayingMemoryManipulator(Manipulator<Arg, Result> manipulator,
       Iterable<Result> results) {
-    this.manipulator = manipulator;
+    super(manipulator);
     this.resultIterator = results.iterator();
   }
 
   @Override
-  public void runPreProcessing(Arg input) {
-    manipulator.runPreProcessing(input);
-  }
+  protected void sendDataToAI(Arg input) {}
 
   @Override
-  public void runProcessing() {
-    manipulator.runProcessing();
-  }
+  protected void receiveDataFromAI() {}
 
   @Override
-  public Result runPostProcessing() {
+  protected Result runPostProcessing() {
     return resultIterator.next();
-  }
-
-  @Override
-  public String toString() {
-    return manipulator.toString();
   }
 }
