@@ -63,6 +63,10 @@ public class ExternalComputerPlayer {
     _errorLogStreams.add(outStream);
   }
 
+  public boolean available() {
+    return _process != null;
+  }
+
   public void release() {
     if (_process == null) {
       return;
