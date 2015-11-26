@@ -35,8 +35,8 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
 
   public Manipulator<Arg, Result> limittingSumTime(int availableMillisecond,
       int maxSumExeededMillisecond) {
-    return new LimittingSumTimeManipulator<Arg, Result>(this,
-        maxSumExeededMillisecond, availableMillisecond);
+    return new LimittingSumTimeManipulator<Arg, Result>(this, maxSumExeededMillisecond,
+        availableMillisecond);
   }
 
   public Manipulator<Arg, Result> recordingStream(ObjectOutputStream oos) {
@@ -57,5 +57,10 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
 
   public ThreadManipulator<Arg, Result> threading() {
     return new ThreadManipulator<Arg, Result>(this);
+  }
+
+  public PauseUnpauseManipulator<Arg, Result> pauseUnpause(String[] pauseCommand,
+      String[] unpauseCommand) {
+    return new PauseUnpauseManipulator<Arg, Result>(this, pauseCommand, unpauseCommand);
   }
 }
