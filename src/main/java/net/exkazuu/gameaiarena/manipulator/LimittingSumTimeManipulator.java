@@ -25,15 +25,14 @@ public class LimittingSumTimeManipulator<Arg, Result extends Serializable>
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void receiveDataFromAI() {
+  protected void receiveDataFromAI(Arg input) {
     if (restExceededMillisecond <= 0) {
       return;
     }
-
     Thread thread = new Thread(new Runnable() {
       @Override
       public void run() {
-        manipulator.receiveDataFromAI();
+        manipulator.receiveDataFromAI(input);
       }
     });
     long currentTimeMillis = System.currentTimeMillis();

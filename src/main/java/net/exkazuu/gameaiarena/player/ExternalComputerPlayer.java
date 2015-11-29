@@ -113,7 +113,7 @@ public class ExternalComputerPlayer {
     try {
       line = _reader.readLine();
     } catch (IOException e) {
-      System.err.println("Fail to read a line from the standar output.");
+      System.err.println("Fail to read a line from the standard output.");
     }
     writeStderr();
     for (PrintStream stream : _outputLogStreams) {

@@ -17,10 +17,10 @@ public class ReplayingMemoryManipulator<Arg, Result extends Serializable>
   protected void sendDataToAI(Arg input) {}
 
   @Override
-  protected void receiveDataFromAI() {}
+  protected void receiveDataFromAI(Arg input) {}
 
   @Override
-  protected Result runPostProcessing() {
+  protected Result runPostProcessing(Arg input) {
     return resultIterator.next();
   }
 }

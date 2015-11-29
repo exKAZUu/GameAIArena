@@ -27,8 +27,8 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   }
 
   @Override
-  protected Result runPostProcessing() {
-    Result act = manipulator.runPostProcessing();
+  protected Result runPostProcessing(Arg input) {
+    Result act = manipulator.runPostProcessing(input);
     // for safety, pause after runPreProcessing
     unpause();
     return act;

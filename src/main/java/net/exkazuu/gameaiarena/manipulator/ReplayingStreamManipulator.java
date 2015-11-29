@@ -18,11 +18,11 @@ public class ReplayingStreamManipulator<Arg, Result extends Serializable>
   protected void sendDataToAI(Arg input) {}
 
   @Override
-  protected void receiveDataFromAI() {}
+  protected void receiveDataFromAI(Arg input) {}
 
   @SuppressWarnings("unchecked")
   @Override
-  public Result runPostProcessing() {
+  public Result runPostProcessing(Arg input) {
     try {
       return (Result) ois.readObject();
     } catch (IOException e) {

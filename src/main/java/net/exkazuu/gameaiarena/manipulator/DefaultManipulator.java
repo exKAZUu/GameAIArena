@@ -23,13 +23,13 @@ class DefaultManipulator<Arg, Result extends Serializable> extends Manipulator<A
   }
 
   @Override
-  protected void receiveDataFromAI() {
-    manipulator.receiveDataFromAI();
+  protected void receiveDataFromAI(Arg input) {
+    manipulator.receiveDataFromAI(input);
   }
 
   @Override
-  protected Result runPostProcessing() {
-    return manipulator.runPostProcessing();
+  protected Result runPostProcessing(Arg input) {
+    return manipulator.runPostProcessing(input);
   }
 
   @Override

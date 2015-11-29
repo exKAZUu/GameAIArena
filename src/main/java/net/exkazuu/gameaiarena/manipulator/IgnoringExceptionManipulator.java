@@ -28,18 +28,18 @@ public class IgnoringExceptionManipulator<Arg, Result extends Serializable>
   }
 
   @Override
-  protected void receiveDataFromAI() {
+  protected void receiveDataFromAI(Arg input) {
     try {
-      manipulator.receiveDataFromAI();
+      manipulator.receiveDataFromAI(input);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Override
-  protected Result runPostProcessing() {
+  protected Result runPostProcessing(Arg input) {
     try {
-      return manipulator.runPostProcessing();
+      return manipulator.runPostProcessing(input);
     } catch (Exception e) {
       e.printStackTrace();
     }

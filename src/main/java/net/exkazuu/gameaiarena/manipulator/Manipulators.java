@@ -45,11 +45,6 @@ public class Manipulators {
     return new ReplayingMemoryManipulator<Arg, Result>(runner, results);
   }
 
-  public static <Arg, Result extends Serializable> ThreadManipulator<Arg, Result> therading(
-      Manipulator<Arg, Result> runner) {
-    return new ThreadManipulator<Arg, Result>(runner);
-  }
-
   public static <Arg, Result extends Serializable> PauseUnpauseManipulator<Arg, Result> pauseUnpause(
       Manipulator<Arg, Result> runner, String[] pauseCommand, String[] unpauseCommand) {
     return new PauseUnpauseManipulator<Arg, Result>(runner, pauseCommand, unpauseCommand);

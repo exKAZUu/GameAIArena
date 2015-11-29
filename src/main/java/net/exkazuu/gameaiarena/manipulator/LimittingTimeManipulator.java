@@ -23,14 +23,14 @@ public class LimittingTimeManipulator<Arg, Result extends Serializable>
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void receiveDataFromAI() {
+  protected void receiveDataFromAI(Arg input) {
     if (killed) {
       return;
     }
     final Thread thread = new Thread(new Runnable() {
       @Override
       public void run() {
-        manipulator.receiveDataFromAI();
+        manipulator.receiveDataFromAI(input);
       }
     });
     thread.start();

@@ -12,17 +12,17 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
   public final Result run(Arg input) {
     runPreProcessing(input);
     sendDataToAI(input);
-    receiveDataFromAI();
-    return runPostProcessing();
+    receiveDataFromAI(input);
+    return runPostProcessing(input);
   }
 
   protected abstract void runPreProcessing(Arg input);
 
   protected abstract void sendDataToAI(Arg input);
 
-  protected abstract void receiveDataFromAI();
+  protected abstract void receiveDataFromAI(Arg input);
 
-  protected abstract Result runPostProcessing();
+  protected abstract Result runPostProcessing(Arg input);
 
   public abstract boolean released();
 
@@ -62,10 +62,6 @@ public abstract class Manipulator<Arg, Result extends Serializable> {
 
   public Manipulator<Arg, Result> replayingMemory(Iterable<Result> results) {
     return new ReplayingMemoryManipulator<Arg, Result>(this, results);
-  }
-
-  public ThreadManipulator<Arg, Result> threading() {
-    return new ThreadManipulator<Arg, Result>(this);
   }
 
   public PauseUnpauseManipulator<Arg, Result> pauseUnpause(String[] pauseCommand,

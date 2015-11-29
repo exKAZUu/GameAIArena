@@ -13,8 +13,8 @@ public class RecordingMemoryManipulator<Arg, Result extends Serializable>
   }
 
   @Override
-  protected Result runPostProcessing() {
-    Result act = manipulator.runPostProcessing();
+  protected Result runPostProcessing(Arg input) {
+    Result act = manipulator.runPostProcessing(input);
     oos.add(act);
     return act;
   }

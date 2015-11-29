@@ -4,8 +4,6 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import net.exkazuu.gameaiarena.manipulator.ThreadManipulator;
-
 public class SceneManager {
   private double fps;
   private double mspf;
@@ -69,11 +67,6 @@ public class SceneManager {
   private <Env extends Environment> void terminateOthers(final Env env) {
     if (window != null) {
       window.dispose();
-    }
-    try {
-      ThreadManipulator.shutdownExecutorService();
-    } catch (SecurityException e) {
-      // Do nothing. This catch deals with Java Applet.
     }
   }
 

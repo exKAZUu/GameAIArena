@@ -15,8 +15,8 @@ public class RecordingStreamManipulator<Arg, Result extends Serializable>
   }
 
   @Override
-  protected Result runPostProcessing() {
-    Result act = manipulator.runPostProcessing();
+  protected Result runPostProcessing(Arg input) {
+    Result act = manipulator.runPostProcessing(input);
     try {
       oos.writeObject(act);
     } catch (IOException e) {
