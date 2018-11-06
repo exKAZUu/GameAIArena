@@ -37,11 +37,6 @@ or
 
 ``` GameAIArena/doc ```
 
-## License
-
-Apache License, Version 2.0
-http://www.apache.org/licenses/LICENSE-2.0
-
 ## How to Setup Development Environment
 
 ### Clone GameAIArena including Sample Game Project
@@ -63,3 +58,11 @@ http://www.eclipse.org/downloads/
 1. Select Projects
 1. Finish
 1. Right click the imported project > Maven > Update Project Configuration > OK
+
+## License
+
+This work is applied the Apache License Version 2.0.
+
+```
+Copyright 2009 Kazunori Sakamoto
+```

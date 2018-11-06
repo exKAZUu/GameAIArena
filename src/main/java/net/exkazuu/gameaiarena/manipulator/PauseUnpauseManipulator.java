@@ -3,7 +3,7 @@ package net.exkazuu.gameaiarena.manipulator;
 import java.io.IOException;
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Joiner;
 
 public class PauseUnpauseManipulator<Arg, Result extends Serializable>
     extends DefaultManipulator<Arg, Result> {
@@ -22,7 +22,7 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   @Override
   protected void runPreProcessing(Arg input) {
     // for safety, unpause before runPreProcessing
-    pause();
+    unpause();
     manipulator.runPreProcessing(input);
   }
 
@@ -30,31 +30,31 @@ public class PauseUnpauseManipulator<Arg, Result extends Serializable>
   protected Result runPostProcessing(Arg input) {
     Result act = manipulator.runPostProcessing(input);
     // for safety, pause after runPreProcessing
-    unpause();
+    pause();
     return act;
   }
 
-  public final void pause() {
+  public final void unpause() {
     if (!released() && paused) {
       try {
         new ProcessBuilder(unpauseCommand).start().waitFor();
       } catch (IOException e) {
         System.err.println("Fail to lauch the specified command for unpausing an AI program");
-        System.err.println("    Command with args: " + StringUtils.join(unpauseCommand, " "));
+        System.err.println("    Command with args: " + Joiner.on(" ").join(unpauseCommand));
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
     }
   }
 
-  public final void unpause() {
+  public final void pause() {
     if (!released()) {
       try {
         new ProcessBuilder(pauseCommand).start().waitFor();
         paused = true;
       } catch (IOException e) {
         System.err.println("Fail to lauch the specified command for pausing an AI program");
-        System.err.println("    Command with args: " + StringUtils.join(pauseCommand, " "));
+        System.err.println("    Command with args: " + Joiner.on(" ").join(pauseCommand));
       } catch (InterruptedException e) {
         e.printStackTrace();
       }

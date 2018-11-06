@@ -1,5 +1,7 @@
 package net.exkazuu.gameaiarena.player;
 
+import com.google.common.base.Joiner;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -7,8 +9,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 public class ExternalComputerPlayer {
 
@@ -43,7 +43,7 @@ public class ExternalComputerPlayer {
       _errorReader = new BufferedReader(new InputStreamReader(_process.getErrorStream()));
     } catch (IOException e) {
       System.err.println("Fail to lauch the specified command for running an AI program");
-      System.err.println("    Command with args: " + StringUtils.join(command, " "));
+      System.err.println("    Command with args: " + Joiner.on(" ").join(command));
       if (_process != null) {
         _process.destroy();
       }

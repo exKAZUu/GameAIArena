@@ -3,7 +3,7 @@ package net.exkazuu.gameaiarena.api;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
+import net.exkazuu.gameaiarena.common.StringUtils;
 
 /**
  * int型で指定される(x, y)座標空間における位置を表すイミュータブルなPoint型です。
@@ -198,8 +198,8 @@ public class Point2 implements Comparable<Point2>, Serializable {
           StringUtils.indexOfAny(number, new char[] {'+', '-', '0', '1', '2', '3', '4', '5', '6',
               '7', '8', '9'});
       int right =
-          StringUtils.lastIndexOfAny(numbers[i], new String[] {"0", "1", "2", "3", "4", "5", "6",
-              "7", "8", "9"});
+          StringUtils.lastIndexOfAny(numbers[i], new char[] {'0', '1', '2', '3', '4', '5', '6',
+            '7', '8', '9'});
       if (!(0 <= left && left <= right)) {
         throw new IllegalArgumentException("'str' has an invalid format.");
       }
