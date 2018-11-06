@@ -7,7 +7,7 @@
     <version>7</version>
   </parent>
 
-  <groupId>jp.ac.waseda</groupId>
+  <groupId>com.github.exKAZUu</groupId>
   <artifactId>GameAIArena</artifactId>
   <version>3.0.0</version>
   <packaging>jar</packaging>
