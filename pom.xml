@@ -11,7 +11,7 @@
   <artifactId>GameAIArena</artifactId>
   <version>3.0.0</version>
   <packaging>jar</packaging>
- 
+
   <name>GameAIArena</name>
   <description>Game AI Arena(GAIA) is a framework which provides common architecture, design and code for competition system through AI programming on game software.</description>
   <url>https://github.com/exKAZUu/GameAIArena</url>
@@ -57,7 +57,7 @@
 
     <junit.jupiter.version>5.3.1</junit.jupiter.version>
   </properties>
-  
+
   <dependencies>
     <!-- General dependencies -->
     <dependency>
@@ -117,7 +117,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- Javadoc -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

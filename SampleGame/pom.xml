@@ -30,7 +30,7 @@
     <dependency>
       <groupId>com.github.exKAZUu</groupId>
       <artifactId>GameAIArena</artifactId>
-      <version>3.0.0</version>
+      <version>master-SNAPSHOT</version>
     </dependency>
 
     <!-- Test -->
