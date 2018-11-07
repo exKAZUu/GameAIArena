@@ -39,7 +39,7 @@ public class PauseUnpauseController<Arg, Result extends Serializable>
       try {
         new ProcessBuilder(unpauseCommand).start().waitFor();
       } catch (IOException e) {
-        System.err.println("Fail to lauch the specified command for unpausing an AI program");
+        System.err.println("Fail to launch the specified command for unpausing an AI program");
         System.err.println("    Command with args: " + Joiner.on(" ").join(unpauseCommand));
       } catch (InterruptedException e) {
         e.printStackTrace();
@@ -53,7 +53,7 @@ public class PauseUnpauseController<Arg, Result extends Serializable>
         new ProcessBuilder(pauseCommand).start().waitFor();
         paused = true;
       } catch (IOException e) {
-        System.err.println("Fail to lauch the specified command for pausing an AI program");
+        System.err.println("Fail to launch the specified command for pausing an AI program");
         System.err.println("    Command with args: " + Joiner.on(" ").join(pauseCommand));
       } catch (InterruptedException e) {
         e.printStackTrace();

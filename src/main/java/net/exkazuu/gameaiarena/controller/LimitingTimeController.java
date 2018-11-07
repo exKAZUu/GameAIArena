@@ -21,18 +21,12 @@ public class LimitingTimeController<Arg, Result extends Serializable>
     controller.sendDataToAI(input);
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected void receiveDataFromAI(Arg input) {
     if (killed) {
       return;
     }
-    final Thread thread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        controller.receiveDataFromAI(input);
-      }
-    });
+    final Thread thread = new Thread(() -> controller.receiveDataFromAI(input));
     thread.start();
     try {
       thread.join(maxMillisecond);

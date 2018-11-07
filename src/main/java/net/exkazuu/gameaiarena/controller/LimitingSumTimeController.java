@@ -23,7 +23,6 @@ public class LimitingSumTimeController<Arg, Result extends Serializable>
     controller.sendDataToAI(input);
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected void receiveDataFromAI(Arg input) {
     if (restExceededMillisecond <= 0) {
@@ -42,9 +41,9 @@ public class LimitingSumTimeController<Arg, Result extends Serializable>
     if (consumedTime > availableMillisecond) {
       restExceededMillisecond -= consumedTime - availableMillisecond;
       System.err.println("Time was exceeded.");
-      System.err.println("    Consumed millseconds in this turn: " + consumedTime);
-      System.err.println("    Available millseconds in this turn: " + availableMillisecond);
-      System.err.println("    All remaining available millseconds: " + restExceededMillisecond);
+      System.err.println("- Consumed milliseconds in this turn: " + consumedTime);
+      System.err.println("- Available milliseconds in this turn: " + availableMillisecond);
+      System.err.println("- All remaining available milliseconds: " + restExceededMillisecond);
     }
     // 時間制限を超えた時点の結果を保存する
     if (restExceededMillisecond <= 0 || thread.isAlive()) {

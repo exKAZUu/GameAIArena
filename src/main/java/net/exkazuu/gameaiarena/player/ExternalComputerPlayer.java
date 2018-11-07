@@ -32,9 +32,9 @@ public class ExternalComputerPlayer {
     if (workDir != null) {
       pb.directory(new File(workDir));
     }
-    _inputLogStreams = new ArrayList<PrintStream>();
-    _outputLogStreams = new ArrayList<PrintStream>();
-    _errorLogStreams = new ArrayList<PrintStream>();
+    _inputLogStreams = new ArrayList<>();
+    _outputLogStreams = new ArrayList<>();
+    _errorLogStreams = new ArrayList<>();
     _errorLog = new StringBuilder();
     try {
       _process = pb.start();
@@ -42,7 +42,7 @@ public class ExternalComputerPlayer {
       _writer = new PrintStream(_process.getOutputStream());
       _errorReader = new BufferedReader(new InputStreamReader(_process.getErrorStream()));
     } catch (IOException e) {
-      System.err.println("Fail to lauch the specified command for running an AI program");
+      System.err.println("Fail to launch the specified command for running an AI program");
       System.err.println("    Command with args: " + Joiner.on(" ").join(command));
       if (_process != null) {
         _process.destroy();
