@@ -9,7 +9,7 @@
 
   <groupId>com.github.exKAZUu</groupId>
   <artifactId>GameAIArena</artifactId>
-  <version>3.1.0</version>
+  <version>3.2.1</version>
   <packaging>jar</packaging>
 
   <name>GameAIArena</name>
