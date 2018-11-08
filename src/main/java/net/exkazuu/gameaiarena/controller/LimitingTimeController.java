@@ -6,7 +6,8 @@ public class LimitingTimeController<Arg, Result extends Serializable>
     extends DefaultController<Arg, Result> {
 
   private final int maxMillisecond;
-  private boolean killed;
+  private int lastConsumedMillisecond;
+  private boolean timeExceeded;
 
   public LimitingTimeController(Controller<Arg, Result> controller, int maxMillisecond) {
     super(controller);
@@ -15,7 +16,7 @@ public class LimitingTimeController<Arg, Result extends Serializable>
 
   @Override
   protected void sendDataToAI(Arg input) {
-    if (killed) {
+    if (timeExceeded) {
       return;
     }
     controller.sendDataToAI(input);
@@ -23,22 +24,32 @@ public class LimitingTimeController<Arg, Result extends Serializable>
 
   @Override
   protected void receiveDataFromAI(Arg input) {
-    if (killed) {
+    if (timeExceeded) {
       return;
     }
     final Thread thread = new Thread(() -> controller.receiveDataFromAI(input));
+    long currentTimeMillis = System.currentTimeMillis();
     thread.start();
     try {
-      thread.join(maxMillisecond);
+      thread.join(maxMillisecond + 100);
     } catch (final InterruptedException e) {
       e.printStackTrace();
     }
-    // 時間制限を超えた時点の結果を保存する
-    if (thread.isAlive()) {
+
+    lastConsumedMillisecond = (int)(System.currentTimeMillis() - currentTimeMillis);
+    if (lastConsumedMillisecond > maxMillisecond || thread.isAlive()) {
       System.err.println("Terminated the thread because time was exceeded.");
       thread.stop();
       release();
-      killed = true;
+      timeExceeded = true;
     }
+  }
+
+  public boolean timeExceeded() {
+    return timeExceeded;
+  }
+
+  public int getLastConsumedMillisecond() {
+    return lastConsumedMillisecond;
   }
 }

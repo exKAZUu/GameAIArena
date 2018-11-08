@@ -7,6 +7,8 @@ public class LimitingSumTimeController<Arg, Result extends Serializable>
 
   private final int availableMillisecond;
   private int restExceededMillisecond;
+  private int lastConsumedMillisecond;
+  private boolean timeExceeded;
 
   public LimitingSumTimeController(Controller<Arg, Result> controller, int availableMillisecond,
                                    int maxExceededMillisecond) {
@@ -17,7 +19,7 @@ public class LimitingSumTimeController<Arg, Result extends Serializable>
 
   @Override
   protected void sendDataToAI(Arg input) {
-    if (restExceededMillisecond <= 0) {
+    if (timeExceeded) {
       return;
     }
     controller.sendDataToAI(input);
@@ -25,32 +27,47 @@ public class LimitingSumTimeController<Arg, Result extends Serializable>
 
   @Override
   protected void receiveDataFromAI(Arg input) {
-    if (restExceededMillisecond <= 0) {
+    if (timeExceeded) {
       return;
     }
     Thread thread = new Thread(() -> controller.receiveDataFromAI(input));
     long currentTimeMillis = System.currentTimeMillis();
     thread.start();
     try {
-      thread.join(availableMillisecond + restExceededMillisecond);
+      thread.join(availableMillisecond + restExceededMillisecond + 100);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
 
-    long consumedTime = System.currentTimeMillis() - currentTimeMillis;
-    if (consumedTime > availableMillisecond) {
-      restExceededMillisecond -= consumedTime - availableMillisecond;
+    lastConsumedMillisecond = (int)(System.currentTimeMillis() - currentTimeMillis);
+    if (lastConsumedMillisecond > availableMillisecond) {
+      restExceededMillisecond -= lastConsumedMillisecond - availableMillisecond;
       System.err.println("Time was exceeded.");
-      System.err.println("- Consumed milliseconds in this turn: " + consumedTime);
+      System.err.println("- Consumed milliseconds in this turn: " + lastConsumedMillisecond);
       System.err.println("- Available milliseconds in this turn: " + availableMillisecond);
       System.err.println("- All remaining available milliseconds: " + restExceededMillisecond);
     }
-    // 時間制限を超えた時点の結果を保存する
     if (restExceededMillisecond <= 0 || thread.isAlive()) {
-      System.err.println("Terminated the thread because time was exceeded.");
+      System.err.println("Terminating the thread because time was exceeded.");
       thread.stop();
       release();
-      restExceededMillisecond = 0;
+      timeExceeded = true;
     }
+  }
+
+  public boolean timeExceeded() {
+    return timeExceeded;
+  }
+
+  public int getLastConsumedMillisecond() {
+    return lastConsumedMillisecond;
+  }
+
+  public int getAvailableMillisecond() {
+    return availableMillisecond;
+  }
+
+  public int getRestExceededMillisecond() {
+    return restExceededMillisecond;
   }
 }

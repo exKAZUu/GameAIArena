@@ -42,7 +42,7 @@ public class ExternalComputerPlayer {
       _writer = new PrintStream(_process.getOutputStream());
       _errorReader = new BufferedReader(new InputStreamReader(_process.getErrorStream()));
     } catch (IOException e) {
-      System.err.println("Fail to launch the specified command for running an AI program");
+      System.err.println("Fail to launch the specified command for running an AI program.");
       System.err.println("    Command with args: " + Joiner.on(" ").join(command));
       if (_process != null) {
         _process.destroy();

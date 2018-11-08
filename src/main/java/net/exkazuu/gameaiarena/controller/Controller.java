@@ -34,15 +34,15 @@ public abstract class Controller<Arg, Result extends Serializable> {
 
   public abstract ExternalComputerPlayer getExternalComputerPlayer();
 
-  public Controller<Arg, Result> ignoringException() {
+  public IgnoringExceptionController<Arg, Result> ignoringException() {
     return new IgnoringExceptionController<>(this);
   }
 
-  public Controller<Arg, Result> limitingTime(int maxMillisecond) {
+  public LimitingTimeController<Arg, Result> limitingTime(int maxMillisecond) {
     return new LimitingTimeController<>(this, maxMillisecond);
   }
 
-  public Controller<Arg, Result> limitingSumTime(int availableMillisecond,
+  public LimitingSumTimeController<Arg, Result> limitingSumTime(int availableMillisecond,
                                                  int maxSumExeededMillisecond) {
     return new LimitingSumTimeController<>(this, maxSumExeededMillisecond,
       availableMillisecond);
@@ -53,19 +53,19 @@ public abstract class Controller<Arg, Result extends Serializable> {
     return new PauseUnpauseController<>(this, pauseCommand, unpauseCommand);
   }
 
-  public Controller<Arg, Result> recordingMemory(List<Result> oos) {
+  public RecordingMemoryController<Arg, Result> recordingMemory(List<Result> oos) {
     return new RecordingMemoryController<>(this, oos);
   }
 
-  public Controller<Arg, Result> recordingStream(ObjectOutputStream oos) {
+  public RecordingStreamController<Arg, Result> recordingStream(ObjectOutputStream oos) {
     return new RecordingStreamController<>(this, oos);
   }
 
-  public Controller<Arg, Result> replayingMemory(Iterable<Result> results) {
+  public ReplayingMemoryController<Arg, Result> replayingMemory(Iterable<Result> results) {
     return new ReplayingMemoryController<>(this, results);
   }
 
-  public Controller<Arg, Result> replayingStream(ObjectInputStream ois) {
+  public ReplayingStreamController<Arg, Result> replayingStream(ObjectInputStream ois) {
     return new ReplayingStreamController<>(this, ois);
   }
 }
